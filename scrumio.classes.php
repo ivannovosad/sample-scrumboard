@@ -39,7 +39,7 @@ class ScrumioItem {
       if ($field['field_id'] == ITEM_RESPONSIBLE_ID) {
         $this->responsible = array();
         if ($field['values'][0]['value'] > 0) {
-          if ($field['values'][0]['value']['avatar']) {
+          if ($field['values'][0]['value']/*['avatar']*/) {
             $this->responsible = $field['values'][0]['value'];
           }
         }
@@ -129,7 +129,7 @@ class ScrumioStory {
   }
   
   public function get_estimate() {
-    return $this->estimate;
+    return round($this->estimate, 2);
   }
   
   public function get_on_target_value() {
@@ -251,7 +251,7 @@ class ScrumioSprint {
         $list[$this->item_id] = $list[$this->item_id]+$story->get_time_left();
       }
     }
-    return $list[$this->item_id] ? $list[$this->item_id] : '0';
+    return $list[$this->item_id] ? round($list[$this->item_id], 2) : '0';
   }
   
   public function get_estimate() {
@@ -262,7 +262,7 @@ class ScrumioSprint {
         $list[$this->item_id] = $list[$this->item_id]+$story->get_estimate();
       }
     }
-    return $list[$this->item_id] ? $list[$this->item_id] : '0';
+    return $list[$this->item_id] ? round($list[$this->item_id], 2) : '0';
   }
   
   public function get_on_target_value() {
