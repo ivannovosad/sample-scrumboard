@@ -27,6 +27,12 @@
       total_width = total_width-175; // width of the story-header
       var count = $('#stories').data('count');
       var wrapper_width = Math.floor(total_width/count);
+
+	// fix of the overflowing columns
+	if (wrapper_width > 238) {
+		wrapper_width = 238;
+	}
+
       $('.story, .state,.header h1').width(wrapper_width);
       
     }
