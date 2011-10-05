@@ -8,7 +8,7 @@
         }
       ?>
       </ul>
-      <div class="status-text"><div class="number"><?= $story->get_time_left(); ?></div><div class="label">hrs left</div></div>
+      <div class="status-text"><div class="number"><?= $story->get_time_left(); ?></div><div class="label">pts left</div></div>
     </div>
     <span class="title"><?= $story->title ?></span>
     <div class="metadata">

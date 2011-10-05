@@ -238,9 +238,21 @@ class ScrumioSprint {
   
   public function get_working_days_left() {
     $start_date = date_create('now', timezone_open('UTC'));
-    
+	
     // We substract 1 here to be able to 'chase the target' rather than 'working ahead'
     return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'))-1;
+  }
+  
+  public function get_end_and_now_diff() {
+	  $start_date = date_create('now', timezone_open('UTC'));
+	  $end_date = date_create(strtotime($this->end_date), timezone_open('UTC'));
+	  
+	  echo $this->end_date;
+	  
+	  print_r($end_date);
+	  
+	  echo date_format($start_date, "H:i:s");
+	  echo date_format($end_date, "H:i:s");
   }
   
   public function get_time_left() {

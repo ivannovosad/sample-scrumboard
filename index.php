@@ -11,6 +11,7 @@ function configure() {
 
 dispatch('/', 'scrumboard');
 dispatch('/show/:id', 'scrumboard');
+dispatch('/reload/:id', 'scrumboard');
   function scrumboard() {
     global $api;
     // If we have an access token, show the scrumboard
@@ -35,15 +36,25 @@ dispatch('/show/:id', 'scrumboard');
         }
       }
       
-      $sprint = new ScrumioSprint($current_sprint);
-      return html('index.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
-    }
-    else {
+		$sprint = new ScrumioSprint($current_sprint);
+	  
+		// only return contents of partials when periodical refreshin
+		if ( strpos(request_uri(), '/reload') !== false ) {
+			
+			$dashboard = html('_dashboard.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
+			$stories = html('_stories.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
+			
+			return json_encode(array('dashboard' => $dashboard, 'stories' => $stories));
+		} else {
+			
+			return html('index.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
+		}
+    } else {
       // No access token, show the "login" screen
       return html('login.html.php', NULL, array('oauth_url' => option('OAUTH_URL')));
     }
   }
-
+  
 dispatch('/authorize', 'authorize');
   function authorize() {
     global $oauth;

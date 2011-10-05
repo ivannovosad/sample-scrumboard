@@ -17,55 +17,34 @@
       Sprints: 
       <ul class="sprints">
         <?php foreach ($sprints as $item) : ?>
-          <li class="<?= $sprint->item_id == $item['item_id'] ? 'selected' : '' ?>"><a href="<?= url_for('/show/'.$item['item_id']);?>"><?= $item['title']; ?></a></li>
+			<?php
+				$sprintStart = $item['fields'][1]['values'][0]['start'];
+				$sprintStart = date("d.m.Y", strtotime($sprintStart));
+			?>
+          <li class="<?= $sprint->item_id == $item['item_id'] ? 'selected' : '' ?>">
+			  <a href="<?= url_for('/show/'.$item['item_id']);?>"><?= $sprintStart; /*$item['title'];*/ ?></a>
+		  </li>
         <?php endforeach; ?>
       </ul>
     </div>
     <div id="main">
       <div id="dashboard">
-
-        <div id="sidebar">
-          <div class="sprint_status">
-            <div class="on_target_text <?= $sprint->get_on_target_delta() >= 0 ? 'over' : 'under' ?>"><?= $sprint->get_on_target_delta() >= 0 ? '+'.$sprint->get_on_target_delta() : $sprint->get_on_target_delta() ?> hrs</div>
-            <div class="total_hours"><?= $sprint->get_time_left();?> hours left, <?= $sprint->get_estimate();?> total hours<br><?= $sprint->get_working_days_left(); ?> days left, <?= $sprint->get_planned_daily_burn(); ?> hrs/day burn</div>
-          </div>
-          <div class="graph total_graph">
-            <div class="box-wrap">
-              <div class="target" title="Target: <?= $sprint->get_on_target_value(); ?> hours" style="left: <?= $sprint->get_current_target_percent(); ?>%;"></div>
-              <div class="actual" title="Finished: <?= $sprint->get_finished(); ?> hours" style="width: <?= $sprint->get_current_percent(); ?>%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <ul class="stories">
-          <?php foreach ($sprint->stories as $story) : ?>
-            <?= render('_dashboard_story.html.php', NULL, array('story' => $story)); ?>
-          <?php endforeach; ?>
-        </ul>
-
-
+			<?= render('_dashboard.html.php', NULL, array('sprint' => $sprint)); ?>
       </div>
       <div id="stories" class="story-view hidden" data-count="<?= count($sprint->states); ?>">
-        <div class="header">
-          <?php foreach ($sprint->states as $state) : ?>
-            <?= '<h1>'.$state.'</h1>'; ?>
-          <?php endforeach; ?>
-        </div>
-        <div class="items">
-          <?php foreach ($sprint->stories as $story) : ?>
-            <?= render('_story.html.php', NULL, array('story' => $story)); ?>
-          <?php endforeach; ?>
-        </div>
+			<?= render('_stories.html.php', NULL, array('sprint' => $sprint)); ?>
       </div>
     </div>
     <div id="overlay"></div>
     <script type="text/javascript" charset="utf-8">
       var update_url_base = "<?= url_for('/item'); ?>";
+	  var sprint_id ="<?php echo $sprint->item_id; ?>";
     </script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.js"></script>
     <script src="public/tipsy/javascripts/jquery.tipsy.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/jquery.ui.touch.js" type="text/javascript" charset="utf-8"></script>
+    <script src="public/lib/jquery.periodicalupdater.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Function.prototype.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Podio.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Podio.Event.js" type="text/javascript" charset="utf-8"></script>

@@ -60,9 +60,16 @@ img {
   display:inline;
   margin:10px;
 }
-#navbar .sprints li.selected {
-  font-weight:bold;
+
+#navbar .sprints li a{
+	padding: 5px 10px;
+	
 }
+#navbar .sprints li.selected a{
+	background-color: red;
+	
+}
+
 #navbar #logout {
   float:right;
   margin-right:10px;
