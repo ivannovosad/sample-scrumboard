@@ -8,7 +8,13 @@
         }
       ?>
       </ul>
-      <div class="status-text"><div class="number"><?= $story->get_time_left(); ?></div><div class="label">pts left</div></div>
+      <div class="status-text">
+		  <div class="number">
+			<? /*= $story->get_time_left(); */ ?>
+			<?= $story->get_points(); ?>
+		  </div>
+		  <div class="label">pts</div>
+	  </div>
     </div>
     <span class="title"><?= $story->title ?></span>
     <div class="metadata">
@@ -18,7 +24,7 @@
         if ($status_text) {
           $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
         }
-        $links[] = $story->get_estimate() .' hrs estimated';
+        $links[] = $story->get_points() .' points estimated';
         $links[] = '<a href="'.$story->link.'">view in podio</a>';
         // if ($story->product_owner) {
         //   $links[] = $story->product_owner['name'];

@@ -58,6 +58,7 @@ class ScrumioStory {
   public $total_days;
   public $remaining_days;
   public $items;
+  public $points;
   
   public function __construct($item, $items, $estimate, $time_left, $states, $total_days, $remaining_days) {
     global $api;
@@ -74,6 +75,14 @@ class ScrumioStory {
     
     // Get all items for this story
     $this->items = $items;
+	
+	foreach ($item['fields'] as $field) {
+      if ($field['field_id'] == STORY_POINTS) {
+        $this->points = $field['values'][0]['value'];
+        break;
+      }
+    }
+
     $this->estimate = $estimate;
     $this->time_left = $time_left;
     
@@ -81,6 +90,10 @@ class ScrumioStory {
     $this->total_days = $total_days;
     $this->remaining_days = $remaining_days;
   }
+
+	public function get_points() {
+		return (int) $this->points;
+	}
   
   public function get_responsible() {
     $list = array();
@@ -125,7 +138,7 @@ class ScrumioStory {
   }
   
   public function get_time_left() {
-    return $this->time_left;
+    return round($this->time_left, 2);
   }
   
   public function get_estimate() {
@@ -153,7 +166,20 @@ class ScrumioStory {
     $current = $total-$this->get_time_left();
     return $target/$total*100;
   }
-  
+	
+	public function get_finished_story_items() {
+		$list = array();
+		foreach ($this->states as $state) {
+		  $list[$state] = array();
+		}
+
+		foreach ($this->items as $item) {
+		  $state = $item->state ? $item->state : STATE_PO_DONE;
+		  $list[$state][] = $item;
+		}
+
+		return $list;
+	}
 }
 
 class ScrumioSprint {
@@ -232,6 +258,36 @@ class ScrumioSprint {
     
   }
   
+	public function get_finished_stories() {
+		
+		$finishedStories = array();
+	  
+		// iterate over all sprints stories
+		foreach ($this->stories as $story) {
+
+			// if a story has story items, iterate over all of them
+			// and find out if all of them are finished
+			// only if so, the story itself is finished
+			if ($story->items) {
+				
+				$itemsCount = count($story->items);
+				$finishedItemsCount = 0;
+
+				foreach ($story->items as $item) {
+					if ($item->state === STATE_PO_DONE) {
+						$finishedItemsCount++;
+					}
+				}
+				
+				// all of the items are finished
+				if ($itemsCount > 0 && $itemsCount === $finishedItemsCount) {
+					$finishedStories[] = $story;
+				}
+			}
+		}
+	}
+
+  
   public function get_working_days() {
     return getWorkingDays(date_format($this->start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'));
   }
@@ -241,18 +297,6 @@ class ScrumioSprint {
 	
     // We substract 1 here to be able to 'chase the target' rather than 'working ahead'
     return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'))-1;
-  }
-  
-  public function get_end_and_now_diff() {
-	  $start_date = date_create('now', timezone_open('UTC'));
-	  $end_date = date_create(strtotime($this->end_date), timezone_open('UTC'));
-	  
-	  echo $this->end_date;
-	  
-	  print_r($end_date);
-	  
-	  echo date_format($start_date, "H:i:s");
-	  echo date_format($end_date, "H:i:s");
   }
   
   public function get_time_left() {
@@ -276,6 +320,19 @@ class ScrumioSprint {
     }
     return $list[$this->item_id] ? round($list[$this->item_id], 2) : '0';
   }
+
+	/**
+	 * return all sprint's stories' points 
+	 * @return int 
+	 */
+	public function get_total_points() {
+		$points = 0;
+		foreach ($this->stories as $story) {
+			$points += $story->points;
+		}
+		return (int) $points;
+	}
+
   
   public function get_on_target_value() {
     static $list;
@@ -291,16 +348,14 @@ class ScrumioSprint {
     return $list[$this->item_id];
   }
   
-  public function get_planned_daily_burn() {
-    static $list;
-    if (!isset($list[$this->item_id])) {
-      $estimate = $this->get_estimate();
-      $total_days = $this->get_working_days();
-      $hours_per_day = $estimate/$total_days;
-      $list[$this->item_id] = round($hours_per_day, 2);
-    }
-    return $list[$this->item_id];
-  }
+	public function get_planned_daily_burn() {
+		$estimate = $this->get_total_points();
+		$total_days = $this->get_working_days();
+		$hours_per_day = $estimate/$total_days;
+		$dailyBurn = round($hours_per_day, 2);
+
+		return $dailyBurn;
+	}
 
   public function get_current_percent() {
     $target = $this->get_on_target_value();

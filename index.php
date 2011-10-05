@@ -94,7 +94,7 @@ dispatch_put('/item/:item_id', 'update_time_left');
     $api->item->updateFieldValue($item_id, ITEM_STATE_ID, $data);
     
     // Set time_left to '0' when moving to one of the 'done' states
-    if (in_array($state, array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE))) {
+    if (in_array($state, array(/*STATE_DEV_DONE, STATE_QA_DONE, */STATE_PO_DONE))) {
       $api->item->updateFieldValue($item_id, ITEM_TIMELEFT_ID, array(array('value' => 0)), 1);
     }
     // Reset time left when moving to Not Started

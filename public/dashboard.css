@@ -183,7 +183,7 @@ div.box4 { position: absolute; height: 20px; width: 10%; left: 90%; background-c
 
 
 /* RED LINE */
-div.target { position: absolute; height: 21px; width: 4px; left: 32px; top: 0; background-color: #fff; z-index: 7; font-size: 0; }
+div.target { position: absolute; height: 21px; width: 4px; left: 32px; top: 0; background-color: black; z-index: 7; font-size: 0; }
 
 /* ONE SEGMENT ONLY */
 div.actual { position: absolute; height: 8px; left: 0px; top: 6px; background-color: #fff; font-size: 0; z-index: 5; font-size: 0; }
