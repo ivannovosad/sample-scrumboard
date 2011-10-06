@@ -199,7 +199,7 @@ class ScrumioStory {
   }
   
   public function get_estimate() {
-    return round($this->estimate, 2);
+    return round($this->total_days, 2);
   }
   
   public function get_on_target_value() {
@@ -322,8 +322,6 @@ class ScrumioSprint {
 		$bug = new ScrumioBug($item);
 		$stories_bugs[$bug->story_id][] = $bug;
     }
-	
-	//print_r($stories_bugs);
 
     foreach ($stories['items'] as $story) {
 	  $bugs = $stories_bugs[$story['item_id']];
