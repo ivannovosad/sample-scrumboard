@@ -177,8 +177,18 @@ class ScrumioStory {
 		  $state = $item->state ? $item->state : STATE_PO_DONE;
 		  $list[$state][] = $item;
 		}
-
 		return $list;
+	}
+	
+	public function get_unfinished_story_items() {
+		$items = array();
+		foreach ($this->items as $item) {
+			if ($item->state !== STATE_PO_DONE) {
+				$items[] = $item;
+			}
+		  
+		}
+		return $items;
 	}
 }
 

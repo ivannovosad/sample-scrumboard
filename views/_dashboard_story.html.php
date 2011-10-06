@@ -10,10 +10,12 @@
       </ul>
       <div class="status-text">
 		  <div class="number">
-			<? /*= $story->get_time_left(); */ ?>
-			<?= $story->get_points(); ?>
+			<?= count($story->get_unfinished_story_items()); ?> 
 		  </div>
-		  <div class="label">pts</div>
+		  <div class="label">tasks left</div>
+		  <div class="points <?= str_replace(' ', '-', strtolower($state));?>"><?= $story->get_points(); ?></div>
+		  
+		  
 	  </div>
     </div>
     <span class="title"><?= $story->title ?></span>
