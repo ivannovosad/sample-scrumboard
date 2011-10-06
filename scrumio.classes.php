@@ -24,19 +24,53 @@ class ScrumioItem {
 			if ($field['field_id'] == ITEM_STATE_ID) {
 				$this->state = $field['values'][0]['value'];
 			}
-			if ($field['field_id'] == ITEM_ESTIMATE_ID) {
-				$this->estimate = 0;
-				if ($field['values'][0]['value'] > 0) {
-					$this->estimate = $field['values'][0]['value']/3600;
-				}
-			}
-			if ($field['field_id'] == ITEM_TIMELEFT_ID) {
-				$this->time_left = 0;
-				if ($field['values'][0]['value'] > 0) {
-					$this->time_left = $field['values'][0]['value']/3600;
-				}
-			}
+//			if ($field['field_id'] == ITEM_ESTIMATE_ID) {
+//				$this->estimate = 0;
+//				if ($field['values'][0]['value'] > 0) {
+//					$this->estimate = $field['values'][0]['value']/3600;
+//				}
+//			}
+//			if ($field['field_id'] == ITEM_TIMELEFT_ID) {
+//				$this->time_left = 0;
+//				if ($field['values'][0]['value'] > 0) {
+//					$this->time_left = $field['values'][0]['value']/3600;
+//				}
+//			}
 			if ($field['field_id'] == ITEM_RESPONSIBLE_ID) {
+				$this->responsible = array();
+				if ($field['values'][0]['value'] > 0) {
+					if ($field['values'][0]['value']/*['avatar']*/) {
+						$this->responsible = $field['values'][0]['value'];
+					}
+				}
+			}
+		}
+	}
+}
+
+class ScrumioBug {
+
+	public $bug_id;
+	public $title;
+	public $responsible;
+	public $state;
+	public $story_id;
+
+	public function __construct($item) {
+		global $api;
+		// Set Item properties
+		$this->bug_id = $item['item_id'];
+		$this->title = $item['title'];
+		$this->link = $item['link'];
+
+		foreach ($item['fields'] as $field) {
+			if ($field['field_id'] == BUG_STORY_ID) {
+				$this->story_id = $field['values'][0]['value']['item_id'];
+			}
+			if ($field['field_id'] == BUG_STATE_ID) {
+				$this->state = $field['values'][0]['value'];
+			}
+			if ($field['field_id'] == BUG_RESPONSIBLE_ID) {
 				$this->responsible = array();
 				if ($field['values'][0]['value'] > 0) {
 					if ($field['values'][0]['value']/*['avatar']*/) {
@@ -58,8 +92,10 @@ class ScrumioStory {
 	public $remaining_days;
 	public $items;
 	public $points;
+	public $dev_started;
+	public $bugs;
   
-	public function __construct($item, $items, $estimate, $time_left, $states, $total_days, $remaining_days) {
+	public function __construct($item, $items, $bugs, $estimate, $time_left, $states, $total_days, $remaining_days) {
 		global $api;
 		// Set Story properties
 		$this->item_id = $item['item_id'];
@@ -68,26 +104,48 @@ class ScrumioStory {
 		foreach ($item['fields'] as $field) {
 			if ($field['field_id'] == STORY_OWNER) {
 				$this->product_owner = $field['values'][0]['value'];
-				break;
+			}
+			if ($field['field_id'] == STORY_POINTS_ID) {
+				$this->points = $field['values'][0]['value'];
+			}
+			if ($field['field_id'] == STORY_DEV_STARTED_ID) {
+				$this->dev_started = $field['values'][0]['start'];
 			}
 		}
     
 		// Get all items for this story
 		$this->items = $items;
-
-		foreach ($item['fields'] as $field) {
-			if ($field['field_id'] == STORY_POINTS) {
-				$this->points = $field['values'][0]['value'];
-				break;
-			}
-		}
-
+		$this->bugs = $bugs;
+		
 		$this->estimate = $estimate;
 		$this->time_left = $time_left;
 
 		$this->states = $states;
 		$this->total_days = $total_days;
 		$this->remaining_days = $remaining_days;
+	}
+	
+	public function get_bugs_states_object() {
+		$countReported = $countFixed = $countChecked = 0;
+		foreach ($this->bugs as $bug) {
+			switch ($bug->state) {
+				case BUG_STATE_REPORTED:
+					$countReported++;
+					break;
+				case BUG_STATE_FIXED:
+					$countFixed++;
+					break;
+				case BUG_STATE_CHECKED:
+					$countChecked++;
+					break;
+			}
+		}
+		
+		$statesObject = new stdClass();
+		$statesObject->BUG_STATE_REPORTED = $countReported;
+		$statesObject->BUG_STATE_FIXED = $countFixed;
+		$statesObject->BUG_STATE_CHECKED = $countChecked;
+		return $statesObject;
 	}
 
 	public function get_points() {
@@ -238,11 +296,13 @@ class ScrumioSprint {
     // Grab all story items for all stories in one go
     $stories_ids = array();
     $stories_items = array();
+    $stories_bugs = array();
     $stories_estimates = array();
     $stories_time_left = array();
     foreach ($stories['items'] as $story) {
       $stories_ids[] = $story['item_id'];
       $stories_items[$story['item_id']] = array();
+      $stories_bugs[$story['item_id']] = array();
       $stories_estimates[$story['item_id']] = 0;
       $stories_time_left[$story['item_id']] = 0;
     }
@@ -254,14 +314,25 @@ class ScrumioSprint {
       $stories_estimates[$item->story_id] = $stories_estimates[$item->story_id] + $item->estimate;
       $stories_time_left[$item->story_id] = $stories_time_left[$item->story_id] + $item->time_left;
     }
+	
+	$filters = array(array('key' => BUG_STORY_ID, 'values' => $stories_ids));
+    $raw = $api->item->getItems(BUG_APP_ID, 200, 0, 'title', 0, $filters);
+	$bugs = array();
+    foreach ($raw['items'] as $item) {
+		$bug = new ScrumioBug($item);
+		$stories_bugs[$bug->story_id][] = $bug;
+    }
+	
+	//print_r($stories_bugs);
 
     foreach ($stories['items'] as $story) {
+	  $bugs = $stories_bugs[$story['item_id']];
       $items = $stories_items[$story['item_id']];
       $estimate = $stories_estimates[$story['item_id']] ? $stories_estimates[$story['item_id']] : '0';
       $time_left = $stories_time_left[$story['item_id']] ? $stories_time_left[$story['item_id']] : '0';
       
       if (count($items) > 0) {
-        $this->stories[] = new ScrumioStory($story, $items, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
+        $this->stories[] = new ScrumioStory($story, $items, $bugs, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
       }
     }
     

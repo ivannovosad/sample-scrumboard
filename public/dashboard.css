@@ -108,6 +108,16 @@ header h1 {
   line-height:16px;
 }
 
+#dashboard .stories > li .metadata .reported {
+	color: red;
+}
+#dashboard .stories > li .metadata .fixed {
+	color: #ff9933;
+}
+#dashboard .stories > li .metadata .checked {
+	color: green;
+}
+
 #dashboard .stories > li .status-area {
   height:50px;
   float:left;

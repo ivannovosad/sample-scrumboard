@@ -11,15 +11,22 @@ define('SPRINT_STATE_ID', null);
 define('STORY_APP_ID', null);
 define('STORY_SPRINT_ID', null);
 define('STORY_OWNER', null);
-define('STORY_POINTS', null);
+define('STORY_POINTS_ID', null);
+define('STORY_DEV_STARTED_ID', null);
 
 define('ITEM_TITLE_ID', null);
 define('ITEM_APP_ID', null);
 define('ITEM_STORY_ID', null);
 define('ITEM_STATE_ID', null);
-define('ITEM_ESTIMATE_ID', null);
-define('ITEM_TIMELEFT_ID', null);
 define('ITEM_RESPONSIBLE_ID', null);
+
+define('BUG_APP_ID', null);
+define('BUG_STORY_ID', null);
+define('BUG_STATE_ID', null);
+define('BUG_STATE_REPORTED', 'Reported');
+define('BUG_STATE_FIXED', 'Fixed');
+define('BUG_STATE_CHECKED', 'Checked');
+define('BUG_RESPONSIBLE_ID', null);
 
 define('STATE_DEV_DONE', 'Dev done');
 define('STATE_QA_DONE', 'QA done');
