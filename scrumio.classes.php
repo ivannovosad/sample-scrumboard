@@ -258,8 +258,12 @@ class ScrumioSprint {
     
   }
   
+	/**
+	 *
+	 * returns only finished stories for current sprint
+	 * @return array 
+	 */
 	public function get_finished_stories() {
-		
 		$finishedStories = array();
 	  
 		// iterate over all sprints stories
@@ -285,8 +289,94 @@ class ScrumioSprint {
 				}
 			}
 		}
+		return $finishedStories;
 	}
-
+	
+	/**
+	 * return all sprint's stories' points 
+	 * @return int 
+	 */
+	public function get_total_points() {
+		$points = 0;
+		foreach ($this->stories as $story) {
+			$points += $story->points;
+		}
+		return (int) $points;
+	}
+	
+	/**
+	 * returns the amount of points of unfinished stories
+	 * those with 
+	 * @return int
+	 */
+	public function get_points_left() {
+		$totalPoints = $this->get_total_points();
+		$finishedStories = $this->get_finished_stories();
+		
+		$finishedStoriedPoints = 0;
+		if (count($finishedStories) > 0) {
+			foreach ($finishedStories as $story) {
+				$finishedStoriedPoints += $story->points;
+			}
+			return (int) ($totalPoints - $finishedStoriedPoints);
+		}
+		return $totalPoints;
+	}
+	
+	public function get_finished_points() {
+		$finishedStories = $this->get_finished_stories();
+		
+		$finishedStoriedPoints = 0;
+		if (count($finishedStories) > 0) {
+			foreach ($finishedStories as $story) {
+				$finishedStoriedPoints += $story->points;
+			}
+			return (int) ($finishedStoriedPoints);
+		}
+		return 0;
+	}
+	
+	public function get_current_percent() {
+		$totalPoints = $this->get_total_points();
+		$pointsLeft = $this->get_points_left();
+		
+		$percentage = ($totalPoints - $pointsLeft) / $totalPoints * 100;
+		return round($percentage, 2);
+	}
+	
+	public function get_users_tasks() {
+		$usersTasks = array();
+		foreach ($this->stories as $story) {
+			foreach ($story->items as $item) {
+				$user = $item->responsible['name'];
+				$usersTasks[$user][] = $item->state;
+			}
+		}
+		return $usersTasks;
+	}
+	
+	/**
+	 *
+	 * get object that contains counts of users PO Done and Dev done tasks
+	 * @param array $userTaskStates
+	 * @return object 
+	 */
+	public function get_users_states_object($userTaskStates) {
+		$countDevDone = $countPODone = 0;
+		foreach ($userTaskStates as $taskState) {
+			if ($taskState === STATE_PO_DONE) {
+				$countPODone++;
+			} elseif ($taskState === STATE_DEV_DONE || $taskState === STATE_QA_DONE || $taskState === STATE_PO_DONE) {
+				$countDevDone++;
+			}
+		}
+		
+		$statesObject = new stdClass();
+		$statesObject->PO = $countPODone;
+		$statesObject->DEV = $countDevDone;
+		return $statesObject;
+	}
+ 
   
   public function get_working_days() {
     return getWorkingDays(date_format($this->start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'));
@@ -321,17 +411,7 @@ class ScrumioSprint {
     return $list[$this->item_id] ? round($list[$this->item_id], 2) : '0';
   }
 
-	/**
-	 * return all sprint's stories' points 
-	 * @return int 
-	 */
-	public function get_total_points() {
-		$points = 0;
-		foreach ($this->stories as $story) {
-			$points += $story->points;
-		}
-		return (int) $points;
-	}
+	
 
   
   public function get_on_target_value() {
@@ -356,14 +436,14 @@ class ScrumioSprint {
 
 		return $dailyBurn;
 	}
-
-  public function get_current_percent() {
-    $target = $this->get_on_target_value();
-    $total = $this->get_estimate();
-    $current = $total-$this->get_time_left();
-    $target_percent = $target/$total*100;
-    return $current/$total*100;
-  }
+	
+//  public function get_current_percent() {
+//    $target = $this->get_on_target_value();
+//    $total = $this->get_estimate();
+//    $current = $total-$this->get_time_left();
+//    $target_percent = $target/$total*100;
+//    return $current/$total*100;
+//  }
   
   public function get_current_target_percent() {
     $target = $this->get_on_target_value();

@@ -172,6 +172,36 @@ header h1 {
   padding:0 2px;
 }
 
+#dashboard #users {
+	float: left;
+	clear: both;
+	margin-top: 20px;
+}
+
+#dashboard #users tr th {
+	text-align: left;
+	font-size: 16px;
+	color: #006611;
+}
+
+#dashboard #users tr td {
+	vertical-align: top;
+	padding: 4px 20px 4px 0;
+}
+
+#dashboard #users tr td div {
+	
+	font-weight: bold;
+}
+
+#dashboard #users tr td div.po-done {
+	color: #339933;
+}
+
+#dashboard #users tr td div.dev-done {
+	color: #006699;
+}
+
 /*	BULLET GRAPH */
 div.box-wrap { position: relative; width: 370px; height: 21px; top: 0; left: 0; margin: 0; padding: 0; background: #bad6ec; }
 
