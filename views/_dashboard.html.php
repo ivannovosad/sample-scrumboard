@@ -1,13 +1,11 @@
 <div id="sidebar">
   <div class="sprint_status">
-	<div class="on_target_text <?= $sprint->get_on_target_delta() >= 0 ? 'over' : 'under' ?>">
+	<div class="on_target_text <?= $sprint->get_working_days_left() >= 0 ? 'over' : 'under' ?>">
 		<?php if ($sprint->get_working_days_left() < 0) : ?>
 			finished<br />
 		<?php else: ?>
 			<?= $sprint->get_working_days_left(); ?> days left<br />
 		<?php endif; ?>
-			
-		<!-- <?= $sprint->get_on_target_delta() >= 0 ? '+'.$sprint->get_on_target_delta() : $sprint->get_on_target_delta() ?> hrs -->
 	</div>
 	  
 	<div class="total_hours">
@@ -20,7 +18,7 @@
 	
   <div class="graph total_graph">
 	<div class="box-wrap">
-	  <div class="target" title="Current time<?/*=$sprint->get_on_target_value();*/?>" style="left: <?= $sprint->get_current_target_percent(); ?>%;"></div>
+	  <div class="target" title="Current time" style="left: <?= $sprint->get_current_target_percent(); ?>%;"></div>
 	  <div class="actual" title="Finished: <?= $sprint->get_finished_points(); ?> points"
 		   style="width: <?= $sprint->get_current_percent(); ?>%;"></div>
 	</div>

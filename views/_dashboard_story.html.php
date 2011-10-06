@@ -36,3 +36,6 @@
     </div>
   </div>
 </li>
+
+
+<?php /*print_r($story); */ ?>

@@ -140,6 +140,7 @@ header h1 {
 	padding: 2px;
 	background-color: #999;
 	color: #fff;
+	font-weight: bold;
 }
 
 #dashboard .stories > li ul.status {
@@ -185,9 +186,11 @@ header h1 {
 }
 
 #dashboard #users {
+	width: 300px;
 	float: left;
 	clear: both;
 	margin-top: 20px;
+	border-collapse: collapse;
 }
 
 #dashboard #users tr th {
@@ -198,11 +201,25 @@ header h1 {
 
 #dashboard #users tr td {
 	vertical-align: top;
-	padding: 4px 20px 4px 0;
+	padding: 4px 20px 4px 10px;
+}
+
+#dashboard #users tr td {
+	border-bottom: 1px solid #E7E7E7;
+}
+
+#dashboard #users tr td.status {
+	width: 7px !important;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 0;
+}
+
+#dashboard #users tr td.status.po-done {
+	background-color: #339933;
 }
 
 #dashboard #users tr td div {
-	
 	font-weight: bold;
 }
 

@@ -1,109 +1,108 @@
 <?php
 
 class ScrumioItem {
-  
-  public $item_id;
-  public $title;
-  public $estimate;
-  public $time_left;
-  public $responsible;
-  public $state;
-  public $story_id;
-  
-  public function __construct($item) {
-    global $api;
-    // Set Item properties
-    $this->item_id = $item['item_id'];
-    $this->title = $item['title'];
-    $this->link = $item['link'];
-    
-    foreach ($item['fields'] as $field) {
-      if ($field['field_id'] == ITEM_STORY_ID) {
-        $this->story_id = $field['values'][0]['value']['item_id'];
-      }
-      if ($field['field_id'] == ITEM_STATE_ID) {
-        $this->state = $field['values'][0]['value'];
-      }
-      if ($field['field_id'] == ITEM_ESTIMATE_ID) {
-        $this->estimate = 0;
-        if ($field['values'][0]['value'] > 0) {
-          $this->estimate = $field['values'][0]['value']/3600;
-        }
-      }
-      if ($field['field_id'] == ITEM_TIMELEFT_ID) {
-        $this->time_left = 0;
-        if ($field['values'][0]['value'] > 0) {
-          $this->time_left = $field['values'][0]['value']/3600;
-        }
-      }
-      if ($field['field_id'] == ITEM_RESPONSIBLE_ID) {
-        $this->responsible = array();
-        if ($field['values'][0]['value'] > 0) {
-          if ($field['values'][0]['value']/*['avatar']*/) {
-            $this->responsible = $field['values'][0]['value'];
-          }
-        }
-      }
-    }
-  }
-  
+
+	public $item_id;
+	public $title;
+	public $estimate;
+	public $time_left;
+	public $responsible;
+	public $state;
+	public $story_id;
+
+	public function __construct($item) {
+		global $api;
+		// Set Item properties
+		$this->item_id = $item['item_id'];
+		$this->title = $item['title'];
+		$this->link = $item['link'];
+
+		foreach ($item['fields'] as $field) {
+			if ($field['field_id'] == ITEM_STORY_ID) {
+				$this->story_id = $field['values'][0]['value']['item_id'];
+			}
+			if ($field['field_id'] == ITEM_STATE_ID) {
+				$this->state = $field['values'][0]['value'];
+			}
+			if ($field['field_id'] == ITEM_ESTIMATE_ID) {
+				$this->estimate = 0;
+				if ($field['values'][0]['value'] > 0) {
+					$this->estimate = $field['values'][0]['value']/3600;
+				}
+			}
+			if ($field['field_id'] == ITEM_TIMELEFT_ID) {
+				$this->time_left = 0;
+				if ($field['values'][0]['value'] > 0) {
+					$this->time_left = $field['values'][0]['value']/3600;
+				}
+			}
+			if ($field['field_id'] == ITEM_RESPONSIBLE_ID) {
+				$this->responsible = array();
+				if ($field['values'][0]['value'] > 0) {
+					if ($field['values'][0]['value']/*['avatar']*/) {
+						$this->responsible = $field['values'][0]['value'];
+					}
+				}
+			}
+		}
+	}
 }
 
 class ScrumioStory {
 
-  public $item_id;
-  public $title;
-  public $product_owner;
-  public $states;
-  public $total_days;
-  public $remaining_days;
-  public $items;
-  public $points;
+	public $item_id;
+	public $title;
+	public $product_owner;
+	public $states;
+	public $total_days;
+	public $remaining_days;
+	public $items;
+	public $points;
   
-  public function __construct($item, $items, $estimate, $time_left, $states, $total_days, $remaining_days) {
-    global $api;
-    // Set Story properties
-    $this->item_id = $item['item_id'];
-    $this->title = $item['title'];
-    $this->link = $item['link'];
-    foreach ($item['fields'] as $field) {
-      if ($field['field_id'] == STORY_OWNER) {
-        $this->product_owner = $field['values'][0]['value'];
-        break;
-      }
-    }
+	public function __construct($item, $items, $estimate, $time_left, $states, $total_days, $remaining_days) {
+		global $api;
+		// Set Story properties
+		$this->item_id = $item['item_id'];
+		$this->title = $item['title'];
+		$this->link = $item['link'];
+		foreach ($item['fields'] as $field) {
+			if ($field['field_id'] == STORY_OWNER) {
+				$this->product_owner = $field['values'][0]['value'];
+				break;
+			}
+		}
     
-    // Get all items for this story
-    $this->items = $items;
-	
-	foreach ($item['fields'] as $field) {
-      if ($field['field_id'] == STORY_POINTS) {
-        $this->points = $field['values'][0]['value'];
-        break;
-      }
-    }
+		// Get all items for this story
+		$this->items = $items;
 
-    $this->estimate = $estimate;
-    $this->time_left = $time_left;
-    
-    $this->states = $states;
-    $this->total_days = $total_days;
-    $this->remaining_days = $remaining_days;
-  }
+		foreach ($item['fields'] as $field) {
+			if ($field['field_id'] == STORY_POINTS) {
+				$this->points = $field['values'][0]['value'];
+				break;
+			}
+		}
+
+		$this->estimate = $estimate;
+		$this->time_left = $time_left;
+
+		$this->states = $states;
+		$this->total_days = $total_days;
+		$this->remaining_days = $remaining_days;
+	}
 
 	public function get_points() {
 		return (int) $this->points;
 	}
   
-  public function get_responsible() {
-    $list = array();
-    foreach ($this->items as $item) {
-      if ($item->responsible) {
-        $list[$item->responsible['user_id']] = $item->responsible;
-      }
-    }
-    return $list;
-  }
+	public function get_responsible() {
+		$list = array();
+		foreach ($this->items as $item) {
+			if ($item->responsible) {
+				$list[$item->responsible['user_id']] = $item->responsible;
+			}
+		}
+		return $list;
+	}
   
   public function get_items_by_state() {
     $list = array();
@@ -372,18 +371,20 @@ class ScrumioSprint {
 	 * @return object 
 	 */
 	public function get_users_states_object($userTaskStates) {
-		$countDevDone = $countPODone = 0;
+		$countAll = $countDevDone = $countPODone = 0;
 		foreach ($userTaskStates as $taskState) {
 			if ($taskState === STATE_PO_DONE) {
 				$countPODone++;
 			} elseif ($taskState === STATE_DEV_DONE || $taskState === STATE_QA_DONE || $taskState === STATE_PO_DONE) {
 				$countDevDone++;
 			}
+			$countAll++;
 		}
 		
 		$statesObject = new stdClass();
 		$statesObject->PO = $countPODone;
 		$statesObject->DEV = $countDevDone;
+		$statesObject->ALL = $countAll;
 		return $statesObject;
 	}
  
@@ -420,9 +421,6 @@ class ScrumioSprint {
     }
     return $list[$this->item_id] ? round($list[$this->item_id], 2) : '0';
   }
-
-	
-
   
   public function get_on_target_value() {
     static $list;
@@ -446,30 +444,17 @@ class ScrumioSprint {
 
 		return $dailyBurn;
 	}
-	
-//  public function get_current_percent() {
-//    $target = $this->get_on_target_value();
-//    $total = $this->get_estimate();
-//    $current = $total-$this->get_time_left();
-//    $target_percent = $target/$total*100;
-//    return $current/$total*100;
-//  }
-  
-  public function get_current_target_percent() {
-    $target = $this->get_on_target_value();
-    $total = $this->get_estimate();
-    $current = $total-$this->get_time_left();
-    return $target/$total*100;
-  }
+
+	public function get_current_target_percent() {
+		$target = $this->get_on_target_value();
+		$total = $this->get_estimate();
+		$current = $total-$this->get_time_left();
+		return $target/$total*100;
+	}
 
   public function get_finished() {
     return $this->get_estimate()-$this->get_time_left();
   }
-
-  public function get_on_target_delta() {
-    return $this->get_finished()-$this->get_on_target_value();
-  }
-  
 }
 
 //The function returns the no. of business days between two dates and it skips the holidays
