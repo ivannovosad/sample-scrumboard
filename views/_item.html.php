@@ -12,7 +12,10 @@
       <div class="responsible">
         <?//= substr($item->responsible['name'], 0, strpos($item->responsible['name'], ' ')); ?>
         <?= $item->responsible['name']; ?>
+		  <br />
+        Comments: <?= $item->commentsCount; ?>
       </div>
     <?php endif; ?>
   </div>
 </li>
+<?php /*print_r($item);*/ ?>

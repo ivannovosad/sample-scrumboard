@@ -8,6 +8,7 @@ class ScrumioItem {
 	public $time_left;
 	public $responsible;
 	public $state;
+	public $commentsCount = 0;
 	public $story_id;
 
 	public function __construct($item) {
@@ -16,6 +17,7 @@ class ScrumioItem {
 		$this->item_id = $item['item_id'];
 		$this->title = $item['title'];
 		$this->link = $item['link'];
+		$this->commentsCount = $item['comments'];
 
 		foreach ($item['fields'] as $field) {
 			if ($field['field_id'] == ITEM_STORY_ID) {
