@@ -45,6 +45,7 @@
         // if ($story->product_owner) {
         //   $links[] = $story->product_owner['name'];
         // }
+		$links[] = '<div class="priority">priority: '.$story->priority.'</div>';
       ?>
       <?= implode(' | ', $links); ?>
     </div>
@@ -52,4 +53,4 @@
 </li>
 
 
-<?php /*print_r($story); */ ?>
+<? /*php print_r($story); */?>

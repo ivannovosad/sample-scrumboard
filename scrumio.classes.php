@@ -92,6 +92,7 @@ class ScrumioStory {
 	public $remaining_days;
 	public $items;
 	public $points;
+	public $priority = 0;
 	public $dev_started;
 	public $bugs;
   
@@ -107,6 +108,9 @@ class ScrumioStory {
 			}
 			if ($field['field_id'] == STORY_POINTS_ID) {
 				$this->points = $field['values'][0]['value'];
+			}
+			if ($field['field_id'] == STORY_PRIORITY_ID) {
+				$this->priority = (int)$field['values'][0]['value'];
 			}
 			if ($field['field_id'] == STORY_DEV_STARTED_ID) {
 				$this->dev_started = $field['values'][0]['start'];
@@ -291,7 +295,8 @@ class ScrumioSprint {
 
     // Get all stories in this sprint
     $filters = array(array('key' => STORY_SPRINT_ID, 'values' => array($sprint_id)));
-    $stories = $api->item->getItems(STORY_APP_ID, 200, 0, 'title', 0, $filters);
+    // $stories = $api->item->getItems(STORY_APP_ID, 200, 0, 'title', 0, $filters);
+    $stories = $api->item->getItems(STORY_APP_ID, 200, 0, STORY_POINTS_ID, 1, $filters);
     
     // Grab all story items for all stories in one go
     $stories_ids = array();

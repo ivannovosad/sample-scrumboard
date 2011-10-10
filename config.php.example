@@ -12,6 +12,7 @@ define('STORY_APP_ID', null);
 define('STORY_SPRINT_ID', null);
 define('STORY_OWNER', null);
 define('STORY_POINTS_ID', null);
+define('STORY_PRIORITY_ID', null);
 define('STORY_DEV_STARTED_ID', null);
 
 define('ITEM_TITLE_ID', null);
