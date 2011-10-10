@@ -27,10 +27,15 @@
   }
   
   function onDashBoardStoryClick(elmTarget, e) {
-    // Single story click: switch to board view and scroll to story
-    onDashBoardToggleClick();
-    var storyId = elmTarget.data('id');
-    $('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+    
+	if (e.target.nodeName === 'A') {
+		window.open(e.target.href, "_blank");
+	} else {
+		// Single story click: switch to board view and scroll to story
+		onDashBoardToggleClick();
+		var storyId = elmTarget.data('id');
+		$('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+	}
   }
   function onDashBoardToggleClick(elmTarget, e) {
     $('#dashboard, #stories').toggle();
