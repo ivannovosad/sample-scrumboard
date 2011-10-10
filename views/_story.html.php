@@ -4,7 +4,10 @@
     <?php if ($story->product_owner) : ?>
       <ul class="user-list">
         <li>
-          <img src="<?= avatar_url($story->product_owner['avatar']); ?>" width="16" height="16">
+			<?php if (isset($story->product_owner['avatar'])): ?>
+			<img src="<?= avatar_url($story->product_owner['avatar']); ?>" width="16" height="16">
+			<?php endif; ?>
+		  
           <?= $story->product_owner['name']; ?> (PO)
         </li>
         <?php $responsible = $story->get_responsible(); ?>
@@ -12,7 +15,9 @@
           <?php foreach($responsible as $user): ?>
             <?php if ($user['user_id'] != $story->product_owner['user_id']) : ?>
               <li>
-                <img src="<?= avatar_url($user['avatar']); ?>" width="16" height="16">
+				<?php if (isset($user['avatar'])): ?>
+					<img src="<?= avatar_url($user['avatar']); ?>" width="16" height="16">
+				<?php endif; ?>
                 <?= $user['name']; ?>
               </li>
             <?php endif; ?>
