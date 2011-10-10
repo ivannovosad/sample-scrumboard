@@ -5,7 +5,7 @@
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
 	
-	var url = "/?/reload";
+	var url = "?/reload";
 	if (sprint_id) {
 		url += "/"+sprint_id;
 	}
