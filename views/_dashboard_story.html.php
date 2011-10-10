@@ -18,7 +18,8 @@
 		  
 	  </div>
     </div>
-    <span class="title"><?= $story->title ?></span>
+    <span class="title"><?= $story->title ?> [prio: <?= $story->priority; ?>]</span>
+    
     <div class="metadata">
       <?php
         $links = array();
@@ -27,25 +28,21 @@
           $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
         }
 		$bugsStatesObject = $story->get_bugs_states_object();
-        // $links[] = $story->get_points() .' points estimated';
-        // $links[] = count($story->bugs) .' total bugs';
-		//if ($bugsStatesObject->BUG_STATE_REPORTED > 0) {
-			$links[] = '<span class="reported">'.
-				$bugsStatesObject->BUG_STATE_REPORTED .' reported bugs</span>';
-		//}
-		//if ($bugsStatesObject->BUG_STATE_FIXED > 0) {
-			$links[] = '<span class="fixed">'.
-				$bugsStatesObject->BUG_STATE_FIXED .' fixed bugs</span>';
-		//}
-		//if ($bugsStatesObject->BUG_STATE_CHECKED > 0) {
-			$links[] = '<span class="checked">'.
-				$bugsStatesObject->BUG_STATE_CHECKED .' checked bugs</span>';
-		//}
+		
+		$bugsUrl = SCRUM_SPACE_URL."/app/view/".BUG_APP_ID.
+			"?filter_field_id=".BUG_STORY_ID."&filter_field_value={$story->item_id}";
+			//"?filter_field_id=".BUG_STATE_ID."&filter_field_value=";
+
+		$links[] = '<a class="reported" href="'.$bugsUrl/*.BUG_STATE_REPORTED*/.'">'.
+			$bugsStatesObject->BUG_STATE_REPORTED .' reported bugs</a>';
+		
+		$links[] = '<a class="fixed" href="'.$bugsUrl/*.BUG_STATE_FIXED*/.'">'.
+			$bugsStatesObject->BUG_STATE_FIXED .' fixed bugs</a>';
+		
+		$links[] = '<a class="checked" href="'.$bugsUrl/*.BUG_STATE_CHECKED*/.'">'.
+			$bugsStatesObject->BUG_STATE_CHECKED .' checked bugs</a>';
+
         $links[] = '<a href="'.$story->link.'">view in podio</a>';
-        // if ($story->product_owner) {
-        //   $links[] = $story->product_owner['name'];
-        // }
-		$links[] = '<div class="priority">priority: '.$story->priority.'</div>';
       ?>
       <?= implode(' | ', $links); ?>
     </div>

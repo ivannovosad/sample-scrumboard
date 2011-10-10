@@ -4,6 +4,7 @@ define('OAUTH_ENDPOINT', 'https://podio.com/oauth/authorize');
 define('CLIENT', '/path/to/podio-php/PodioAPI.php');
 define('CLIENT_ID', '');
 define('CLIENT_SECRET', '');
+define('SCRUM_SPACE_URL', 'https://yoururl.podio.com/scrumdevelopment');
 
 define('SPRINT_APP_ID', null);
 define('SPRINT_STATE_ID', null);

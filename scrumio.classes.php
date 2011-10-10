@@ -93,7 +93,7 @@ class ScrumioStory {
 	public $total_days;
 	public $remaining_days;
 	public $items;
-	public $points;
+	public $points = 0;
 	public $priority = 0;
 	public $dev_started;
 	public $bugs;
