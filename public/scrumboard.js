@@ -26,22 +26,65 @@
     });
   }
   
-  function onDashBoardStoryClick(elmTarget, e) {
-    
-	if (e.target.nodeName === 'A') {
-		window.open(e.target.href, "_blank");
-	} else {
-		// Single story click: switch to board view and scroll to story
-		onDashBoardToggleClick();
-		var storyId = elmTarget.data('id');
-		$('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+
+	function onDashBoardStoryClick(elmTarget, e) {
+
+		if (e.target.nodeName === 'A') {
+			window.open(e.target.href, "_blank");
+		} else if (e.target.nodeName === 'BUTTON') {
+            
+			var itemIDs = $(e.target).data('value').toString();
+			if (itemIDs.indexOf(",") >= 0) {
+				var ids = itemIDs.split(",");
+				for (id in ids) {
+					setDevelopmentTaskPODone(e, ids[id]);
+				}
+			} else {
+				setDevelopmentTaskPODone(e, itemIDs);
+			}
+		} else {
+			// Single story click: switch to board view and scroll to story
+			onDashBoardToggleClick();
+			var storyId = elmTarget.data('id');
+			$('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+		}
 	}
-  }
-  function onDashBoardToggleClick(elmTarget, e) {
-    $('#dashboard, #stories').toggle();
-   initSingleStoryView();
-   $('html, body').scrollTop(0);
-  }
+	
+	function setDevelopmentTaskPODone(e, taskID) {
+		$.ajaxSetup({async:false});
+		
+		$(e.target.parentNode).append(
+		'<div class="spinner">Setting all development tasks to PO DONE.<br />Please wait...</div>');
+		
+		$.post(update_url_base+'/'+taskID, {'state':'PO done', '_method':'PUT'}, function(data){
+			if ($(e.target.parentNode).find('.spinner')) {
+				$(e.target.parentNode).find('.spinner').remove();
+			}
+			reloadView();
+		});
+	}
+  
+	function onDashBoardToggleClick(elmTarget, e) {
+		$('#dashboard, #stories').toggle();
+		initSingleStoryView();
+		$('html, body').scrollTop(0);
+	}
+  
+	function reloadView() {
+		var url = "?/reload";
+		if (sprint_id) {
+			url += "/"+sprint_id;
+		}
+		$.get(
+			url,
+			function(remoteData, status, xhr)  {
+				$('#dashboard').html(remoteData.dashboard);
+				$('#stories').html(remoteData.stories);
+				initSingleStoryView();
+			},
+			"json"
+		);
+	}
   
   function initSingleStoryView() {
     function resize_stories() {

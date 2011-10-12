@@ -43,6 +43,16 @@
 			$bugsStatesObject->BUG_STATE_CHECKED .' checked bugs</a>';
 
         $links[] = '<a href="'.$story->link.'">view in podio</a>';
+		
+		$items = array();
+		foreach ($story->items as $item) {
+			$items[] = $item->item_id;
+		}
+
+		// only product owner sees the PO done button
+		if (current_user_id() === $story->product_owner['user_id']) {
+			$links[] = '<button data-id="'.$story->item_id.'" data-value="'.implode(',', $items).'">PO</button>';
+		}
       ?>
       <?= implode(' | ', $links); ?>
     </div>

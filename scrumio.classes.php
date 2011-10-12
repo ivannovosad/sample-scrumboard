@@ -294,11 +294,12 @@ class ScrumioSprint {
         $this->end_date = date_create($field['values'][0]['end'], timezone_open('UTC'));
       }
     }
-
+	
     // Get all stories in this sprint
     $filters = array(array('key' => STORY_SPRINT_ID, 'values' => array($sprint_id)));
     // $stories = $api->item->getItems(STORY_APP_ID, 200, 0, 'title', 0, $filters);
-    $stories = $api->item->getItems(STORY_APP_ID, 200, 0, STORY_POINTS_ID, 1, $filters);
+	// stories are ordered by highest priority (lower number is higher priority)
+	$stories = $api->item->getItems(STORY_APP_ID, 200, 0, STORY_PRIORITY_ID, 0, $filters);
     
     // Grab all story items for all stories in one go
     $stories_ids = array();

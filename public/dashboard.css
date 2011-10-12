@@ -83,6 +83,21 @@ header h1 {
   font-family: PT Sans, Arial, serif;
   position: relative;
 }
+
+#dashboard .stories > li .spinner {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+	height: 100%;
+	padding-top: 20px;
+	background-color: #999;
+	opacity: 0.9;
+	filter: alpha(opacity=80); /* For IE8 and earlier */
+	
+}
+
 #dashboard .stories > li:hover .body {
   background: #e0e0e0;
 }
