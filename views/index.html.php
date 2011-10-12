@@ -38,6 +38,10 @@
     <div id="overlay"></div>
     <script type="text/javascript" charset="utf-8">
       var update_url_base = "<?= url_for('/item'); ?>";
+      var update_story_url_base = "<?= url_for('/story'); ?>";
+      var state_po_done = "<?= STATE_PO_DONE; ?>";
+      var state_not_started = "<?= STATE_NOT_STARTED; ?>";
+      var state_dev_started = "<?= STATE_DEV_STARTED; ?>";
 	  var sprint_id ="<?php echo $sprint->item_id; ?>";
     </script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> 

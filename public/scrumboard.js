@@ -56,7 +56,7 @@
 		$(e.target.parentNode).append(
 		'<div class="spinner">Setting all development tasks to PO DONE.<br />Please wait...</div>');
 		
-		$.post(update_url_base+'/'+taskID, {'state':'PO done', '_method':'PUT'}, function(data){
+		$.post(update_url_base+'/'+taskID, {'state':state_po_done, '_method':'PUT'}, function(data){
 			if ($(e.target.parentNode).find('.spinner')) {
 				$(e.target.parentNode).find('.spinner').remove();
 			}
@@ -104,15 +104,47 @@
       $('.story, .state,.header h1').width(wrapper_width);
       
     }
-
+	
     resize_stories();
     
     $(window).resize(function(){
       resize_stories();
     });
+	
+	
+	function get_all_story_tasks(storyElementID) {
+		var tasks = new Array();
+		
+		// all the items
+		$(storyElementID + " li.story-item").each(function (index, item) {
+			var parentNode = $(item).parent();
+			tasks[index] = parentNode[0];
+		});
+		return tasks;
+	}
+	
+	function are_all_tasks_not_started(tasks) {
+		var notStartedCount = 0;
+		var statuses = new Array();
+		for (i = 0; i < tasks.length; i++) {
+			var state = $(tasks[i]).data("state");
+			if (state == state_not_started) {
+				notStartedCount++;
+			}
+		}
+		if (tasks.length == notStartedCount) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 
     $('.story-group').each(function(){
-      var current_id = '#'+$(this).attr('id');
+		
+		var allStoryTasks, allTasksNotStarted;
+		var current_id = '#'+$(this).attr('id');
+	  
       $(current_id+' .story-item-state li').draggable({
         cancel: ".spinner",
         revert: "invalid", // when not dropped, the item will revert back to its initial position
@@ -120,7 +152,10 @@
         helper: "clone",
         cursor: "move",
         start: function(event, ui){
-          $(ui.helper).width($(ui.helper).parent().width());
+			allStoryTasks = get_all_story_tasks(current_id);
+			allTasksNotStarted = are_all_tasks_not_started(allStoryTasks);
+			// console.log("allTasksNotStarted: " + allTasksNotStarted);
+			$(ui.helper).width($(ui.helper).parent().width());
         }
       });
 
@@ -135,6 +170,19 @@
             var item_id = $(ui.draggable).data('id');
             $(this).append(ui.draggable);
             // $(this).css('background', '#eee');
+			
+			// if none of the story tasks are started and the current one is dropped into Dev started,
+			// update Story 'Dev started'
+			if (allTasksNotStarted && state == state_dev_started) {
+				var storyID = $(ui.draggable).parents("div.story-group").data('id');
+				$.post(update_story_url_base+'/'+storyID, {'dev_started':true, '_method':'PUT'}, function(data){
+				});
+			}
+			
+			if (state == state_not_started) {
+				
+				console.log("allTasksNotStarted: "+allTasksNotStarted);
+			}
 
             // Make Ajax request to change state on Podio
             $(ui.draggable).append('<div class="spinner"></div>');
@@ -151,6 +199,9 @@
             .removeClass('dragging-3')
             .removeClass('dragging-4')
             .addClass('dragging-'+$(this).attr('data-state-id'));
+			
+			allStoryTasks = get_all_story_tasks(current_id);
+			allTasksNotStarted = are_all_tasks_not_started(allStoryTasks);
         }
       });
     });

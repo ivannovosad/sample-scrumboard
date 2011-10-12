@@ -32,6 +32,12 @@
 		$bugsUrl = SCRUM_SPACE_URL."/app/view/".BUG_APP_ID.
 			"?filter_field_id=".BUG_STORY_ID."&filter_field_value={$story->item_id}";
 			//"?filter_field_id=".BUG_STATE_ID."&filter_field_value=";
+		
+		if ($story->dev_started) {
+			$links[] = '<span>Dev started: '.dev_started($story->dev_started).'</span>';
+		} else {
+			$links[] = '<span>Dev not started yet</span>';
+		}
 
 		$links[] = '<a class="reported" href="'.$bugsUrl/*.BUG_STATE_REPORTED*/.'">'.
 			$bugsStatesObject->BUG_STATE_REPORTED .' reported bugs</a>';
@@ -59,5 +65,4 @@
   </div>
 </li>
 
-
-<? /*php print_r($story); */?>
+<?php /* echo print_r($story); */ ?>

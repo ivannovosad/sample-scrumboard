@@ -10,3 +10,6 @@ function current_user_id() {
 	return $currentUser['user_id'];
 }
 
+function dev_started($dev_started) {
+	return date("d.m.Y H:i", strtotime($dev_started));
+}

@@ -36,6 +36,8 @@ dispatch('/reload/:id', 'scrumboard');
         }
       }
       
+	  
+	  ///// current_sprint
 		$sprint = new ScrumioSprint($current_sprint);
 	  
 		// only return contents of partials when periodical refreshin
@@ -105,6 +107,18 @@ dispatch_put('/item/:item_id', 'update_time_left');
 //    }
     return txt('ok');
   }
+  
+dispatch_put('/story/:story_id', 'update_story'); 
+	function update_story() {
+	
+		global $api;
+		$story_id = params('story_id');
+		$dev_started = date("Y-m-d H:i:s");
+		$data = array(array('start' => $dev_started));
+		
+		$api->item->updateFieldValue($story_id, STORY_DEV_STARTED_ID, $data);
+		return txt('ok');
+	}
 
 dispatch('/logout', 'logout');
   function logout() {

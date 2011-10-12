@@ -30,7 +30,8 @@ define('BUG_STATE_FIXED', 'Fixed');
 define('BUG_STATE_CHECKED', 'Checked');
 define('BUG_RESPONSIBLE_ID', null);
 
+define('STATE_NOT_STARTED', 'Not started');
+define('STATE_DEV_STARTED', 'Dev started');
 define('STATE_DEV_DONE', 'Dev done');
 define('STATE_QA_DONE', 'QA done');
 define('STATE_PO_DONE', 'PO done');
-define('STATE_NOT_STARTED', 'Not started');
