@@ -23,6 +23,10 @@
 		   style="width: <?= $sprint->get_current_percent(); ?>%;"></div>
 	</div>
   </div>
+	
+	<div id="users">
+		<?= render('_users.html.php', NULL, array('sprint' => $sprint)); ?>
+	</div>
 </div>
 
 <ul class="stories">
@@ -31,6 +35,3 @@
   <?php endforeach; ?>
 </ul>
 
-<div id="users">
-	<?= render('_users.html.php', NULL, array('sprint' => $sprint)); ?>
-</div>

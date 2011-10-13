@@ -110,11 +110,17 @@ dispatch_put('/item/:item_id', 'update_time_left');
   
 dispatch_put('/story/:story_id', 'update_story'); 
 	function update_story() {
-	
 		global $api;
 		$story_id = params('story_id');
-		$dev_started = date("Y-m-d H:i:s");
-		$data = array(array('start' => $dev_started));
+		
+		$dev_started_param = $_POST['dev_started'];
+		if ($dev_started_param === 'true') {
+			$dev_started = array('start' => date("Y-m-d H:i:s"));
+			$data = array($dev_started);
+		} else {
+			// send an empty array to reset the field ('NULL')
+			$data = array();
+		}
 		
 		$api->item->updateFieldValue($story_id, STORY_DEV_STARTED_ID, $data);
 		return txt('ok');

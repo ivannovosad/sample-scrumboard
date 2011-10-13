@@ -66,6 +66,14 @@
   
 	function onDashBoardToggleClick(elmTarget, e) {
 		$('#dashboard, #stories').toggle();
+		
+		$('#dashboard, #stories').ajaxStart(function() {
+			$("#navbar").append('<div id="refresh">Refreshing...</div>');
+		})
+		.ajaxStop(function() {
+			$("#refresh").remove();
+		});
+		reloadView();
 		initSingleStoryView();
 		$('html, body').scrollTop(0);
 	}
@@ -117,17 +125,19 @@
 		
 		// all the items
 		$(storyElementID + " li.story-item").each(function (index, item) {
-			var parentNode = $(item).parent();
-			tasks[index] = parentNode[0];
+			if (!$(item).hasClass('ui-draggable-dragging')) {
+				tasks[index] = $(item);
+			}
 		});
 		return tasks;
 	}
 	
 	function are_all_tasks_not_started(tasks) {
+		
 		var notStartedCount = 0;
 		var statuses = new Array();
 		for (i = 0; i < tasks.length; i++) {
-			var state = $(tasks[i]).data("state");
+			var state = $(tasks[i]).parent().data("state");
 			if (state == state_not_started) {
 				notStartedCount++;
 			}
@@ -154,7 +164,6 @@
         start: function(event, ui){
 			allStoryTasks = get_all_story_tasks(current_id);
 			allTasksNotStarted = are_all_tasks_not_started(allStoryTasks);
-			// console.log("allTasksNotStarted: " + allTasksNotStarted);
 			$(ui.helper).width($(ui.helper).parent().width());
         }
       });
@@ -171,17 +180,21 @@
             $(this).append(ui.draggable);
             // $(this).css('background', '#eee');
 			
+			var storyID = $(ui.draggable).parents("div.story-group").data('id');
+			
 			// if none of the story tasks are started and the current one is dropped into Dev started,
 			// update Story 'Dev started'
 			if (allTasksNotStarted && state == state_dev_started) {
-				var storyID = $(ui.draggable).parents("div.story-group").data('id');
 				$.post(update_story_url_base+'/'+storyID, {'dev_started':true, '_method':'PUT'}, function(data){
 				});
 			}
 			
 			if (state == state_not_started) {
-				
-				console.log("allTasksNotStarted: "+allTasksNotStarted);
+				if (are_all_tasks_not_started(allStoryTasks)) {
+					// reset story's 'Dev started'
+					$.post(update_story_url_base+'/'+storyID, {'dev_started':false, '_method':'PUT'}, function(data){
+					});
+				}
 			}
 
             // Make Ajax request to change state on Podio
