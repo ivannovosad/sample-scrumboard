@@ -51,12 +51,19 @@
         $links[] = '<a href="'.$story->link.'">view in podio</a>';
 		
 		$items = array();
+		$itemsCount = count($story->items);
+		$itemsQADoneCount = 0;
 		foreach ($story->items as $item) {
+			if ($item->state === STATE_QA_DONE) {
+				$itemsQADoneCount++;
+			}
 			$items[] = $item->item_id;
 		}
 
-		// only product owner sees the PO done button
-		if (current_user_id() === $story->product_owner['user_id']) {
+		// only product owner sees the PO done button when all the tasks are in 'QA done' state
+		if (current_user_id() === $story->product_owner['user_id']
+			&& $itemsCount === $itemsQADoneCount) {
+
 			$links[] = '<button data-id="'.$story->item_id.'" data-value="'.implode(',', $items).'">PO</button>';
 		}
       ?>
