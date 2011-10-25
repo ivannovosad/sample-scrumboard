@@ -19,7 +19,8 @@ dispatch('/reload/:id', 'scrumboard');
       
       // Grab sprints and find current sprint
       // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
-      $sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, 'created_on', 1);
+      $sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, SPRINT_DURATION_ID, 1);
+      //$sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, 'duration', 1);
       foreach ($sprints['items'] as $item) {
         if (params('id') == $item['item_id']) {
           $current_sprint = $item;
