@@ -429,6 +429,46 @@ class ScrumioSprint {
 		$percentage = ($totalPoints - $pointsLeft) / $totalPoints * 100;
 		return round($percentage, 2);
 	}
+    
+    
+    public function get_dev_done_tasks_count() {
+        
+        // get tasks that are at least in "Dev done"
+		return count($this->get_tasks(
+            array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE)
+        ));
+    }
+    
+	public function get_dev_done_tasks_percent() {
+		$allTasks = $this->get_tasks(
+            array(STATE_NOT_STARTED, STATE_DEV_STARTED, STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE)
+        );
+        $allTasksCount = count($allTasks);
+        
+        $devDoneTasksCount = $this->get_dev_done_tasks_count();
+        
+		$percentage = $devDoneTasksCount / $allTasksCount * 100;
+		return round($percentage, 2);
+	}
+    
+    /**
+     *
+     * @param array $states
+     * @example $states = array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE)
+     * @return array 
+     */
+    public function get_tasks($states) {
+        
+        $tasks = array();
+        foreach ($this->stories as $story) {
+			foreach ($story->items as $item) {
+				if (in_array($item->state, $states)) {
+                    $tasks[] = $item;
+                }
+			}
+		}
+        return $tasks;
+    }
 	
 	public function get_users_tasks() {
 		$usersTasks = array();

@@ -21,6 +21,9 @@
 	  <div class="target" title="Current time" style="left: <?= $sprint->get_current_target_percent(); ?>%;"></div>
 	  <div class="actual" title="Finished: <?= $sprint->get_finished_points(); ?> points"
 		   style="width: <?= $sprint->get_current_percent(); ?>%;"></div>
+           
+	  <div class="actualdev" title="Amount of tasks in (at least) Dev done: <?= $sprint->get_dev_done_tasks_count(); ?>"
+		   style="width: <?= $sprint->get_dev_done_tasks_percent(); ?>%;"></div>
 	</div>
   </div>
 	
