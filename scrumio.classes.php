@@ -300,7 +300,7 @@ class ScrumioSprint {
     // $stories = $api->item->getItems(STORY_APP_ID, 200, 0, 'title', 0, $filters);
 	// stories are ordered by highest priority (lower number is higher priority)
 	$stories = $api->item->getItems(STORY_APP_ID, 200, 0, STORY_PRIORITY_ID, 0, $filters);
-    
+   
     // Grab all story items for all stories in one go
     $stories_ids = array();
     $stories_items = array();
@@ -337,9 +337,9 @@ class ScrumioSprint {
       $estimate = $stories_estimates[$story['item_id']] ? $stories_estimates[$story['item_id']] : '0';
       $time_left = $stories_time_left[$story['item_id']] ? $stories_time_left[$story['item_id']] : '0';
       
-      if (count($items) > 0) {
+      //if (count($items) > 0) {
         $this->stories[] = new ScrumioStory($story, $items, $bugs, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
-      }
+      //}
     }
     
   }
