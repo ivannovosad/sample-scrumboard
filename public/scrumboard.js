@@ -112,7 +112,25 @@
       $('.story, .state,.header h1').width(wrapper_width);
       
     }
-	
+    
+    function set_story_height(current_id) {
+      var states = $(current_id).find('.state');
+      var max_height = 0;
+      states.each(function(){
+        var current_height = 0;
+        $(this).find('li').each(function(){
+          if (!$(this).attr('style')) {
+            current_height += $(this).outerHeight(true);
+          }
+        });
+        
+        if (current_height > max_height) {
+          max_height = current_height;
+        }
+      });
+      states.find('ul').height(max_height);
+    }
+    
     resize_stories();
     
     $(window).resize(function(){
@@ -162,6 +180,7 @@
         helper: "clone",
         cursor: "move",
         start: function(event, ui){
+            set_story_height(current_id);
 			allStoryTasks = get_all_story_tasks(current_id);
 			allTasksNotStarted = are_all_tasks_not_started(allStoryTasks);
 			$(ui.helper).width($(ui.helper).parent().width());
