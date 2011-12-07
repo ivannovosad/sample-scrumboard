@@ -56,7 +56,7 @@ class ScrumioBug {
 	public $title;
 	public $responsible;
 	public $state;
-	public $story_id;
+	public $story_ids;
 
 	public function __construct($item) {
 		global $api;
@@ -66,8 +66,13 @@ class ScrumioBug {
 		$this->link = $item['link'];
 
 		foreach ($item['fields'] as $field) {
-			if ($field['field_id'] == BUG_STORY_ID) {
-				$this->story_id = $field['values'][0]['value']['item_id'];
+			
+            if ($field['field_id'] == BUG_STORY_ID) {
+                foreach ($field['values'] as $story) {
+                    //print_r($story);
+                    $this->story_ids[] = $story['value']['item_id'];
+                }
+				//$this->story_id = $field['values'][0]['value']['item_id'];
 			}
 			if ($field['field_id'] == BUG_STATE_ID) {
 				$this->state = $field['values'][0]['value'];
@@ -328,7 +333,11 @@ class ScrumioSprint {
 	$bugs = array();
     foreach ($raw['items'] as $item) {
 		$bug = new ScrumioBug($item);
-		$stories_bugs[$bug->story_id][] = $bug;
+        
+        foreach ($bug->story_ids as $storyID) {
+            $stories_bugs[$storyID][] = $bug;
+        }
+		//$stories_bugs[$bug->story_id][] = $bug;
     }
 
     foreach ($stories['items'] as $story) {
