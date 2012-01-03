@@ -324,8 +324,18 @@ class ScrumioSprint {
     foreach ($raw['items'] as $item) {
       $item = new ScrumioItem($item);
       $stories_items[$item->story_id][] = $item;
-      $stories_estimates[$item->story_id] = $stories_estimates[$item->story_id] + $item->estimate;
-      $stories_time_left[$item->story_id] = $stories_time_left[$item->story_id] + $item->time_left;
+//      $stories_estimates[$item->story_id] = $stories_estimates[$item->story_id] + $item->estimate;
+//      $stories_time_left[$item->story_id] = $stories_time_left[$item->story_id] + $item->time_left;
+      if (isset($stories_estimates[$item->story_id])) {
+        $stories_estimates[$item->story_id] += $item->estimate;
+      } else {
+          $stories_estimates[$item->story_id] = $item->estimate;
+      }
+      if (isset($stories_time_left[$item->story_id])) {
+        $stories_time_left[$item->story_id] += $item->time_left;
+      } else {
+          $stories_time_left[$item->story_id] = $item->time_left;
+      }
     }
 	
 	$filters = array(array('key' => BUG_STORY_ID, 'values' => $stories_ids));
