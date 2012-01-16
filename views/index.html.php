@@ -47,7 +47,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.js"></script>
     <script src="public/tipsy/javascripts/jquery.tipsy.js" type="text/javascript" charset="utf-8"></script>
-    <script src="public/lib/jquery.ui.touch.js" type="text/javascript" charset="utf-8"></script>
+    <script src="public/lib/jquery.ui.touch-punch.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/jquery.periodicalupdater.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Function.prototype.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Podio.js" type="text/javascript" charset="utf-8"></script>
