@@ -5,6 +5,8 @@
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
 	
+	$('.ui-draggable').draggable();
+	
 	var url = "?/reload";
 	if (sprint_id) {
 		url += "/"+sprint_id;
