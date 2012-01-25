@@ -238,6 +238,7 @@
 				dataObject,
 				function(data){
 					$(ui.draggable).find('.spinner').remove();
+					reloadView();
 				}
 			);
           }
