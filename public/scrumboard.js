@@ -220,9 +220,26 @@
 
             // Make Ajax request to change state on Podio
             $(ui.draggable).append('<div class="spinner"></div>');
-            $.post(update_url_base+'/'+item_id, {'state':state, '_method':'PUT'}, function(data){
-              $(ui.draggable).find('.spinner').remove();
-            });
+			
+			var dataObject = {'state':state, '_method':'PUT'};
+			
+			// not started task 
+			if (old_state == state_not_started) {
+				var storyItemDetails = $(ui.draggable).find('.story-item-details')[0];
+				
+				// ... and not assigned to anybody
+				if (storyItemDetails && $(storyItemDetails).css('display') == 'none') {
+					dataObject['assign'] = '1';
+				}
+			}
+			
+            $.post(
+				update_url_base+'/'+item_id,
+				dataObject,
+				function(data){
+					$(ui.draggable).find('.spinner').remove();
+				}
+			);
           }
         },
         over: function(event, ui) {

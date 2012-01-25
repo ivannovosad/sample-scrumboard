@@ -93,6 +93,19 @@ dispatch_put('/item/:item_id', 'update_time_left');
     $item_id = params('item_id');
     $state = $_POST['state'];
     
+    
+    $itemDataObj = $api->item->get($item_id);
+    // print_r($itemDataObj['fields']);
+
+    if (isset($_POST['assign'])) {
+        // assign task to me
+        $userArray = $api->user->getOwnProfile();
+        $profileID = $userArray['profile_id'];
+        
+        $data = array(array('value' => $profileID));
+        $api->item->updateFieldValue($item_id, ITEM_RESPONSIBLE_ID, $data);
+    }
+    
     $data = array(array('value' => $state));
     $api->item->updateFieldValue($item_id, ITEM_STATE_ID, $data);
     
