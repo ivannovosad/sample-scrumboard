@@ -24,10 +24,32 @@
 		$('#dashboard').html(remoteData.dashboard);
 		$('#stories').html(remoteData.stories);
 		initSingleStoryView();
-		
+		initSortable();
     });
+	
+	initSortable();
   }
   
+	function initSortable() {
+		$( ".stories" ).sortable({
+			revert: true,
+			update: function (event, ui) {
+				
+				var stories = $("ul.stories.ui-sortable > li");
+				stories.each(function (index, story) {
+					var priority = index + 1;
+					var storyID = $(story).data('id');
+					
+					$.post(update_story_url_base+'/'+storyID,
+						{'priority': priority, '_method':'PUT'},
+						function(data) {}
+					);
+				});
+				
+			}
+		});
+		$( "ul, li" ).disableSelection();
+	}
 
 	function onDashBoardStoryClick(elmTarget, e) {
 
@@ -91,6 +113,7 @@
 				$('#dashboard').html(remoteData.dashboard);
 				$('#stories').html(remoteData.stories);
 				initSingleStoryView();
+				initSortable();
 			},
 			"json"
 		);
@@ -257,8 +280,8 @@
         }
       });
     });
-    
-    var collapsedData = getCollapsedData().split(',');
+	
+	var collapsedData = getCollapsedData().split(',');
     if (typeof collapsedData === 'object') {
       $.each(collapsedData, function(index, value){
         if (typeof value === 'string') {
