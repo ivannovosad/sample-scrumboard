@@ -126,8 +126,14 @@ dispatch_put('/story/:story_id', 'update_story');
 	function update_story() {
 		global $api;
 		$story_id = params('story_id');
+        
+        if (isset($_POST['priority'])) {
+            $priority = intval($_POST['priority']);
+            update_story_priority($story_id, $priority);
+        }
 		
 		$dev_started_param = $_POST['dev_started'];
+        
 		if ($dev_started_param === 'true') {
 			$dev_started = array('start' => date("Y-m-d H:i:s"));
 			$data = array($dev_started);
@@ -137,8 +143,18 @@ dispatch_put('/story/:story_id', 'update_story');
 		}
 		
 		$api->item->updateFieldValue($story_id, STORY_DEV_STARTED_ID, $data);
+        
 		return txt('ok');
 	}
+    
+    function update_story_priority($story_id, $priority) {
+        global $api;
+        
+        $data = array($priority);
+        $api->item->updateFieldValue($story_id, STORY_PRIORITY_ID, $data);
+        
+		return txt('ok');
+    }
 
 dispatch('/logout', 'logout');
   function logout() {
