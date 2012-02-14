@@ -7,6 +7,25 @@
 	
 	$('.ui-draggable').draggable();
 	
+	var activeRequests = 0;
+	$(document).ajaxStart(function() {
+		activeRequests++;
+	});
+
+	$(document).ajaxStop(function() {
+		activeRequests--;
+	});
+	
+	window.onbeforeunload = function() {
+		if (activeRequests > 0) {
+			return "Ajax requests are still running, please wait.";
+		} else {
+			window.onbeforeunload = null;
+		}
+	};
+
+
+	
 	var url = "?/reload";
 	if (sprint_id) {
 		url += "/"+sprint_id;
