@@ -1,6 +1,6 @@
 <?php $usersTasks = $sprint->get_users_tasks(); ?>
 
-<table id="users">
+<table>
 	<?php foreach ($usersTasks as $user => $taskStates): ?>
 		<?php if ($user): ?>
 			<?php $statesObject = $sprint->get_users_states_object($taskStates); ?>

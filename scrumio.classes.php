@@ -481,13 +481,19 @@ class ScrumioSprint {
      * @example $states = array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE)
      * @return array 
      */
-    public function get_tasks($states) {
+    public function get_tasks($states, $bugsOnly = false) {
         
         $tasks = array();
         foreach ($this->stories as $story) {
 			foreach ($story->items as $item) {
 				if (in_array($item->state, $states)) {
-                    $tasks[] = $item;
+                    if ($bugsOnly) {
+                        if ($item->is_bug) {
+                            $tasks[] = $item;
+                        }
+                    } else {
+                        $tasks[] = $item;
+                    }
                 }
 			}
 		}

@@ -30,6 +30,10 @@
 	<div id="users">
 		<?= render('_users.html.php', NULL, array('sprint' => $sprint)); ?>
 	</div>
+    
+	<div id="bugs">
+		<?= render('_bugs.html.php', NULL, array('sprint' => $sprint)); ?>
+	</div>
 </div>
 
 <ul class="stories">

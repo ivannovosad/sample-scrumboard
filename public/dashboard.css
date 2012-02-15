@@ -210,7 +210,7 @@ header h1 {
   padding:0 2px;
 }
 
-#dashboard #users {
+#dashboard #users table {
 	width: 300px;
 	float: left;
 	clear: both;
@@ -248,12 +248,44 @@ header h1 {
 	font-weight: bold;
 }
 
-#dashboard #users tr td div.po-done {
+#dashboard tr .not-started {
+	color: #ff3300;
+}
+
+#dashboard tr .dev-started {
+	color: #ff9933;
+}
+
+#dashboard tr .dev-done {
+	color: #006699;
+}
+
+#dashboard tr .qa-done {
+	color: #333333;
+}
+
+#dashboard tr .po-done {
 	color: #339933;
 }
 
-#dashboard #users tr td div.dev-done {
-	color: #006699;
+
+#dashboard #bugs {
+	float: left;
+	clear: both;
+}
+
+#dashboard #bugs h2 {
+	margin-top: 2em;
+}
+
+#dashboard #bugs table tr th, #dashboard #bugs table tr td {
+	text-align: left;
+	padding: 4px 20px 4px 10px;
+	font-size: 14px;
+}
+
+#dashboard #bugs table tr th {
+	width: 160px;
 }
 
 /*	BULLET GRAPH */
