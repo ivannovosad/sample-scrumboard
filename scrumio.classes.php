@@ -10,6 +10,7 @@ class ScrumioItem {
 	public $state;
 	public $commentsCount = 0;
 	public $story_id;
+	public $is_bug;
 
 	public function __construct($item) {
 		global $api;
@@ -25,6 +26,10 @@ class ScrumioItem {
 			}
 			if ($field['field_id'] == ITEM_STATE_ID) {
 				$this->state = $field['values'][0]['value'];
+			}
+			if ($field['field_id'] == ITEM_ISBUG_ID) {
+                $value = $field['values'][0]['value']['id'];
+				$this->is_bug = ($value === 2) ? true : false;
 			}
 //			if ($field['field_id'] == ITEM_ESTIMATE_ID) {
 //				$this->estimate = 0;

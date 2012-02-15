@@ -169,6 +169,13 @@ other bg: #cbe8a5
   margin:0 5px 10px 5px;
   position:relative;
 }
+
+.story-item-isbug {
+	border-top: solid 10px red;
+	border-bottom: solid 10px red;
+	border-radius: 10px;
+}
+
 .story-item-details {
   padding: 5px;
   overflow:hidden;

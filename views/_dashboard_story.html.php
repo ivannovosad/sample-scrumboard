@@ -27,11 +27,13 @@
         if ($status_text) {
           $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
         }
+        
+        /* commented out since we dispaly bugs in scrumboard
+         * as developement tasks with flag: Is Bug = YES
 		$bugsStatesObject = $story->get_bugs_states_object();
-		
 		$bugsUrl = SCRUM_SPACE_URL."/app/view/".BUG_APP_ID.
 			"?filter_field_id=".BUG_STORY_ID."&filter_field_value={$story->item_id}";
-			//"?filter_field_id=".BUG_STATE_ID."&filter_field_value=";
+         */
 		
 		if ($story->dev_started) {
 			$links[] = '<span>Dev started: '.dev_started($story->dev_started).'</span>';
@@ -39,14 +41,16 @@
 			$links[] = '<span>Dev not started yet</span>';
 		}
 
-		$links[] = '<a class="reported" href="'.$bugsUrl/*.BUG_STATE_REPORTED*/.'">'.
+        /*
+		$links[] = '<a class="reported" href="'.$bugsUrl.'">'.
 			$bugsStatesObject->BUG_STATE_REPORTED .' reported bugs</a>';
 		
-		$links[] = '<a class="fixed" href="'.$bugsUrl/*.BUG_STATE_FIXED*/.'">'.
+		$links[] = '<a class="fixed" href="'.$bugsUrl.'">'.
 			$bugsStatesObject->BUG_STATE_FIXED .' fixed bugs</a>';
 		
-		$links[] = '<a class="checked" href="'.$bugsUrl/*.BUG_STATE_CHECKED*/.'">'.
+		$links[] = '<a class="checked" href="'.$bugsUrl.'">'.
 			$bugsStatesObject->BUG_STATE_CHECKED .' checked bugs</a>';
+        */
 
         $links[] = '<a href="'.$story->link.'">view in podio</a>';
 		
