@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="public/base.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/dashboard.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/board.css" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="public/modal.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/tipsy/stylesheets/tipsy.css" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="public/jquery.fancybox-1.3.4.css" type="text/css" media="all" charset="utf-8">
     <link rel="shortcut icon" href="public/i/favicon.png"> 
   </head>
   <body>
@@ -34,6 +36,7 @@
       <div id="stories" class="story-view hidden" data-count="<?= count($sprint->states); ?>">
 			<?= render('_stories.html.php', NULL, array('sprint' => $sprint)); ?>
       </div>
+        
     </div>
     <div id="overlay"></div>
     <script type="text/javascript" charset="utf-8">
@@ -53,6 +56,11 @@
     <script src="public/lib/Podio.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Podio.Event.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/Podio.Event.UI.js" type="text/javascript" charset="utf-8"></script>
+    
+    <script type="text/javascript" src="public/lib/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="public/lib/jquery.fancybox-1.3.4.pack.js"></script>
+	
+    
     <script src="public/scrumboard.js" type="text/javascript" charset="utf-8"></script>
   </body>
 </html>

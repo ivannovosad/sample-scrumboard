@@ -232,3 +232,19 @@ other bg: #cbe8a5
 .ui-draggable-dragging {
   z-index:500;
 }
+
+.add-task a {
+	background-color: #333;
+	color: #fff;
+	font-size: 14px;
+	text-decoration: none;
+	border-radius: 4px;
+	padding: 5px;
+	float: left;
+	clear: both;
+	margin-top: 1em;
+}
+
+.add-task a:hover {
+	background-color: #999;
+}

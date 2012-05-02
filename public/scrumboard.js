@@ -1,11 +1,42 @@
 (function (window, $, undefined) {
+	
+
 
   function onInit() {
+	  
+	  $(".btn-add-task").fancybox({
+		'overlayColor'		: '#000',
+		'overlayOpacity'	: 0.5
+	});
+	  
+	  
     $('ul.status li').tipsy({gravity: 'e'});
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
 	
 	$('.ui-draggable').draggable();
+	
+	$("#form-new_item").submit(function (e) {
+		
+		e.preventDefault();
+		// $("#status-message").show();
+		
+		$.ajax({
+           type: "POST",
+           url: '/?/item',
+           data: $("#form-new_item").serialize(), 
+           success: function(data) {
+			   // $("#status-message").hide();
+               parent.$.fancybox.close();
+			   reloadView();
+				initSingleStoryView();
+				$('html, body').scrollTop(0);
+           }
+         });
+		 
+		 return false;
+	});
+	
 	
 	var activeRequests = 0;
 	$(document).ajaxStart(function() {
@@ -322,6 +353,14 @@
     }
   }
   
+  function onAddTaskClick(elmTarget, e) {
+		
+	$(".btn-add-task").fancybox({
+		'overlayColor'		: '#000',
+		'overlayOpacity'	: 0.5
+	});
+  }
+  
   function getCollapsedData() {
     var data = false;
     if (typeof localStorage !== 'undefined' ) {
@@ -366,5 +405,7 @@
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
-
+  Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
+  
+ 
 })(window, jQuery);
