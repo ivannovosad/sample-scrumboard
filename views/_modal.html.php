@@ -5,7 +5,7 @@
                 <input type="hidden" name="story_id" value="<?= $story_id ?>" />
                 <div>
                     <label for="">Task name:</label>
-                    <input id="" type="text" name="item_name" value="" />
+                    <input id="item_name" type="text" name="item_name" value="" />
                 </div>
                 <br />
                 <input id="btn-form-new_item" class="btn" type="submit" name="submit" value="Add task" />

@@ -41,7 +41,7 @@
     <?php $i++; ?>
   <?php endforeach; ?>
     <div class="add-task">
-        <a class="btn-add-task" href="#basic-modal-content" title="Add task">Add task</a>
+        <a class="btn-add-task" href="#basic-modal-content">Add task</a>
     </div>
     <?= render('_modal.html.php', NULL, array('story_item_id' => $story->item_id)); ?>
     

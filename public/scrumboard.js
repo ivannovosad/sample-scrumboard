@@ -3,33 +3,12 @@
 
 
   function onInit() {
-	  
+		  
     $('ul.status li').tipsy({gravity: 'e'});
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
 	
 	$('.ui-draggable').draggable();
-	
-	$("#form-new_item").submit(function (e) {
-		
-		e.preventDefault();
-		// $("#status-message").show();
-		
-		$.ajax({
-           type: "POST",
-           url: '/?/item',
-           data: $("#form-new_item").serialize(), 
-           success: function(data) {
-			   // $("#status-message").hide();
-               parent.$.fancybox.close();
-			   reloadView();
-				initSingleStoryView();
-				$('html, body').scrollTop(0);
-           }
-         });
-		 
-		 return false;
-	});
 	
 	
 	var activeRequests = 0;
@@ -133,11 +112,6 @@
 	}
   
 	function onDashBoardToggleClick(elmTarget, e) {
-		$(".btn-add-task").fancybox({
-			'overlayColor'		: '#000',
-			'overlayOpacity'	: 0.5
-		});
-		
 		$('#dashboard, #stories').toggle();
 		
 		$('#dashboard, #stories').ajaxStart(function() {
@@ -350,13 +324,32 @@
     else {
       removeCollapsed(elmParent.attr('data-id'));
     }
+	
+	
   }
   
   function onAddTaskClick(elmTarget, e) {
+	  $("a.btn-add-task").fancybox({
+			'overlayColor'		: '#000',
+			'overlayOpacity'	: 0.5
+		});
+		$("#form-new_item").submit(function () {
 		
-	$(".btn-add-task").fancybox({
-		'overlayColor'		: '#000',
-		'overlayOpacity'	: 0.5
+			e.preventDefault();
+			$("#status-message").show();
+			
+			var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
+			// console.log(params)
+			
+			$.post("/?/item", params, function () {
+				$("#status-message").hide();
+				   parent.$.fancybox.close();
+				   reloadView();
+					initSingleStoryView();
+					$('html, body').scrollTop(0);
+			});
+
+			return false;
 	});
   }
   
@@ -404,7 +397,9 @@
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
-  Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
+	Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
+  
+  
   
  
 })(window, jQuery);
