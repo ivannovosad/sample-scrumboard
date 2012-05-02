@@ -333,28 +333,30 @@
 			'overlayColor'		: '#000',
 			'overlayOpacity'	: 0.5
 		});
-		$("#form-new_item").submit(function () {
 		
-			e.preventDefault();
-			$("#status-message").show();
-			
-			// var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
-			var params = {
-				story_id: $("#story_id").val(),
-				item_name: $("#item_name").val()
-			};
-			// console.log(params)
-			
-			$.post("/?/item", params, function () {
-				$("#status-message").hide();
-				   parent.$.fancybox.close();
-				   reloadView();
-					initSingleStoryView();
-					$('html, body').scrollTop(0);
-			});
-
-			return false;
-	});
+		
+//		$("#form-new_item").submit(function () {
+//		
+//			e.preventDefault();
+//			$("#status-message").show();
+//			
+//			// var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
+//			var params = {
+//				story_id: $("#story_id").val(),
+//				item_name: $("#item_name").val()
+//			};
+//			// console.log(params)
+//			
+//			$.post("/?/item", params, function () {
+//				$("#status-message").hide();
+//				   parent.$.fancybox.close();
+//				   reloadView();
+//					initSingleStoryView();
+//					$('html, body').scrollTop(0);
+//			});
+//
+//			return false;
+//	});
   }
   
   function getCollapsedData() {

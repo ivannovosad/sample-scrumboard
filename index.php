@@ -91,20 +91,26 @@ dispatch_post('/item', 'create_item');
     function create_item() {
         global $api;
         
-        $values = array(
-            array(
-                'field_id' => ITEM_TITLE_ID,
-                'values' => array('value' => $_POST['item_name'])
-            ),
-            array(
-                'field_id' => ITEM_STATE_ID,
-                'values' => array('value' => STATE_NOT_STARTED)
-            )/*,
-            array(
-                'field_id' => ITEM_STORY_ID,
-                'values' => array($_POST['story_id'])
-            )*/
-         );
+//        $values = array(
+//            array(
+//                'field_id' => ITEM_TITLE_ID,
+//                'values' => array('value' => $_POST['item_name'])
+//            ),
+//            array(
+//                'field_id' => ITEM_STATE_ID,
+//                'values' => array('value' => STATE_NOT_STARTED)
+//            )/*,
+//            array(
+//                'field_id' => ITEM_STORY_ID,
+//                'values' => array($_POST['story_id'])
+//            )*/
+//         );
+//        
+        
+        $values = array('fields' => array(
+            'title' => $_POST['item_name'],
+            'story_id' => array($_POST['story_id'])
+        ));
         
         $result = $api->item->create(ITEM_APP_ID, $values);
         //print_r($result);
