@@ -99,11 +99,11 @@ dispatch_post('/item', 'create_item');
             array(
                 'field_id' => ITEM_STATE_ID,
                 'values' => array('value' => STATE_NOT_STARTED)
-            ),
+            )/*,
             array(
                 'field_id' => ITEM_STORY_ID,
                 'values' => array($_POST['story_id'])
-            )
+            )*/
          );
         
         $result = $api->item->create(ITEM_APP_ID, $values);
