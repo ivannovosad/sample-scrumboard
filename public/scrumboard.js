@@ -338,7 +338,11 @@
 			e.preventDefault();
 			$("#status-message").show();
 			
-			var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
+			// var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
+			var params = {
+				story_id: $("#story_id").val(),
+				item_name: $("#item_name").val()
+			};
 			// console.log(params)
 			
 			$.post("/?/item", params, function () {
