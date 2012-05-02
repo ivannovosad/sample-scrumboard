@@ -4,12 +4,6 @@
 
   function onInit() {
 	  
-	  $(".btn-add-task").fancybox({
-		'overlayColor'		: '#000',
-		'overlayOpacity'	: 0.5
-	});
-	  
-	  
     $('ul.status li').tipsy({gravity: 'e'});
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
@@ -139,6 +133,11 @@
 	}
   
 	function onDashBoardToggleClick(elmTarget, e) {
+		$(".btn-add-task").fancybox({
+			'overlayColor'		: '#000',
+			'overlayOpacity'	: 0.5
+		});
+		
 		$('#dashboard, #stories').toggle();
 		
 		$('#dashboard, #stories').ajaxStart(function() {
