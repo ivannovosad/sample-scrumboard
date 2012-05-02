@@ -335,28 +335,29 @@
 		});
 		
 		
-//		$("#form-new_item").submit(function () {
-//		
-//			e.preventDefault();
-//			$("#status-message").show();
-//			
-//			// var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
+		$("#form-new_item").submit(function () {
+		
+			e.preventDefault();
+			$("#status-message").show();
+			
+			// var params = "story_id=7504209&item_name=TEST";
+			var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
 //			var params = {
-//				story_id: $("#story_id").val(),
-//				item_name: $("#item_name").val()
+//				"story_id": $("#story_id").val(),
+//				"item_name": $("#item_name").val()
 //			};
-//			// console.log(params)
-//			
-//			$.post("/?/item", params, function () {
-//				$("#status-message").hide();
-//				   parent.$.fancybox.close();
-//				   reloadView();
-//					initSingleStoryView();
-//					$('html, body').scrollTop(0);
-//			});
-//
-//			return false;
-//	});
+
+			console.log(params);
+			
+			$.post("/?/item", $(this).serialize(), function () {
+				$("#status-message").hide();
+				parent.$.fancybox.close();
+				reloadView();
+				//initSingleStoryView();
+				//$('html, body').scrollTop(0);
+			});
+			return false;
+	});
   }
   
   function getCollapsedData() {
