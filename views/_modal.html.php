@@ -1,6 +1,6 @@
 <div style="display: none;">
-    <div id="basic-modal-content" style="width:200px;height:90px;overflow:auto;">
-        <form id="form-new_item" action="/?/item" method="post">
+    <div id="basic-modal-content_<?php echo $story_item_id; ?>" style="width:200px;height:90px;overflow:auto;">
+        <form id="form-new-item_<?php echo $story_item_id; ?>" action="/?/item" method="post">
             <div class="add-task">
                 <input type="hidden" name="story_id" value="<?php echo $story_item_id; ?>" />
                 <div>
@@ -9,7 +9,6 @@
                 </div>
                 <br />
                 <input id="btn-form-new_item" class="btn" type="submit" name="add" value="Add task" />
-                <div id="status-message">Creating task...</div>
             </div>
         </form>
     </div>

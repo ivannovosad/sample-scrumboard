@@ -112,6 +112,7 @@
 	}
   
 	function onDashBoardToggleClick(elmTarget, e) {
+		
 		$('#dashboard, #stories').toggle();
 		
 		$('#dashboard, #stories').ajaxStart(function() {
@@ -137,6 +138,11 @@
 				$('#stories').html(remoteData.stories);
 				initSingleStoryView();
 				initSortable();
+				
+				$("a.btn-add-task").fancybox({
+					'overlayColor'		: '#000',
+					'overlayOpacity'	: 0.5
+				});
 			},
 			"json"
 		);
@@ -329,35 +335,17 @@
   }
   
   function onAddTaskClick(elmTarget, e) {
-	  $("a.btn-add-task").fancybox({
-			'overlayColor'		: '#000',
-			'overlayOpacity'	: 0.5
-		});
-		
-		
-		$("#form-new_item").submit(function () {
-		
-			e.preventDefault();
-			$("#status-message").show();
-			
-			// var params = "story_id=7504209&item_name=TEST";
-			var params = "story_id="+$("#story_id").val()+"&item_name="+$("#item_name").val();
-//			var params = {
-//				"story_id": $("#story_id").val(),
-//				"item_name": $("#item_name").val()
-//			};
-
-			console.log(params);
-			
+		var story_id = $(elmTarget).data('id');
+		console.log(story_id);
+		$("#form-new-item_" + story_id).submit(function (ee) {
+			ee.preventDefault();
 			$.post("/?/item", $(this).serialize(), function () {
 				$("#status-message").hide();
 				parent.$.fancybox.close();
 				reloadView();
-				//initSingleStoryView();
-				//$('html, body').scrollTop(0);
 			});
 			return false;
-	});
+		});
   }
   
   function getCollapsedData() {
@@ -404,7 +392,7 @@
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
-	Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
+Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
   
   
   
