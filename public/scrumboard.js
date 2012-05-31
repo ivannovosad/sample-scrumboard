@@ -1,9 +1,6 @@
 (function (window, $, undefined) {
 	
-
-
   function onInit() {
-		  
     $('ul.status li').tipsy({gravity: 'e'});
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
@@ -392,9 +389,6 @@
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
-Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
-  
-  
-  
+  Podio.Event.UI.bind('click', '.btn-add-task', onAddTaskClick);
  
 })(window, jQuery);

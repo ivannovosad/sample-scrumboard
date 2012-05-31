@@ -28,15 +28,11 @@
   </div>
   <?php $i = 0;foreach ($story->get_items_by_state() as $state => $collection) : ?>
     <div class="state state-<?= $i; ?> <?= str_replace(' ', '-', strtolower($state)); ?>">
-     
-        
       <ul class="story-item-state" data-state="<?= $state; ?>" data-state-id="<?= $i; ?>">
         <?php foreach ($collection as $item) : ?>
           <?= render('_item.html.php', NULL, array('item' => $item)); ?>
         <?php endforeach; ?>
       </ul>
-        
-        
     </div>
     <?php $i++; ?>
   <?php endforeach; ?>
@@ -44,5 +40,4 @@
         <a class="btn-add-task" data-id="<?php echo $story->item_id; ?>" href="#basic-modal-content_<?php echo $story->item_id; ?>">Add task</a>
     </div>
     <?= render('_modal.html.php', NULL, array('story_item_id' => $story->item_id)); ?>
-    
 </div>

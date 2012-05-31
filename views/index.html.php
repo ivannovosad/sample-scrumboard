@@ -1,13 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
   <head>
-    <title>ScrumIO | draggable, droppable, trackable scrum!</title>
+    <title>Scrum Board Diagnosia</title>
     <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"> -->
     <link href='https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold' rel='stylesheet' type='text/css'>       
     <link rel="stylesheet" href="public/base.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/dashboard.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/board.css" type="text/css" media="all" charset="utf-8">
-    <link rel="stylesheet" href="public/modal.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/tipsy/stylesheets/tipsy.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/jquery.fancybox-1.3.4.css" type="text/css" media="all" charset="utf-8">
     <link rel="shortcut icon" href="public/i/favicon.png"> 
@@ -36,7 +35,6 @@
       <div id="stories" class="story-view hidden" data-count="<?= count($sprint->states); ?>">
 			<?= render('_stories.html.php', NULL, array('sprint' => $sprint)); ?>
       </div>
-        
     </div>
     <div id="overlay"></div>
     <script type="text/javascript" charset="utf-8">
@@ -59,7 +57,6 @@
     
     <script type="text/javascript" src="public/lib/jquery.mousewheel-3.0.4.pack.js"></script>
 	<script type="text/javascript" src="public/lib/jquery.fancybox-1.3.4.pack.js"></script>
-	
     
     <script src="public/scrumboard.js" type="text/javascript" charset="utf-8"></script>
   </body>
