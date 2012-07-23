@@ -544,7 +544,9 @@ class ScrumioSprint {
     $start_date = date_create('now', timezone_open('UTC'));
 	
     // We substract 1 here to be able to 'chase the target' rather than 'working ahead'
-    return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'))-1;
+    //return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'))-1;
+    // changed by
+    return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'));
   }
   
   public function get_time_left() {
@@ -608,8 +610,9 @@ class ScrumioSprint {
 function getWorkingDays($startDate,$endDate,$holidays = array()){
   //The total number of days between the two dates. We compute the no. of seconds and divide it to 60*60*24
   //We add one to inlude both dates in the interval.
-  $days = (strtotime($endDate) - strtotime($startDate)) / 86400 + 1;
-
+  $days = (strtotime($endDate) - strtotime($startDate)) / 86400; //+ 1;
+  
+  // echo "<h1>DAYS: ".$days."</h1>";
   $no_full_weeks = floor($days / 7);
   $no_remaining_days = fmod($days, 7);
 
