@@ -152,7 +152,7 @@ dispatch_put('/story/:story_id', 'update_story');
         
         if (isset($_POST['priority'])) {
             $priority = intval($_POST['priority']);
-            update_story_priority($story_id, $priority);
+            return update_story_priority($story_id, $priority);
         }
 		
 		$dev_started_param = @$_POST['dev_started'];
