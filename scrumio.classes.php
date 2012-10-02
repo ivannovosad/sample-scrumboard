@@ -18,6 +18,7 @@ class ScrumioItem {
 		$this->item_id = $item['item_id'];
 		$this->title = $item['title'];
 		$this->link = $item['link'];
+    print_r($item['comments']);
 		$this->commentsCount = isset($item['comments'])? count($item['comments']) : 0;
 
 		foreach ($item['fields'] as $field) {
