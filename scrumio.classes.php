@@ -18,7 +18,7 @@ class ScrumioItem {
 		$this->item_id = $item['item_id'];
 		$this->title = $item['title'];
 		$this->link = $item['link'];
-		$this->commentsCount = $item['comments'];
+		$this->commentsCount = isset($item['comments'])? $item['comments'] : 0;
 
 		foreach ($item['fields'] as $field) {
 			if ($field['field_id'] == ITEM_STORY_ID) {
