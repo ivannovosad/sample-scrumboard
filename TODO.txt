@@ -5,7 +5,6 @@ Sidebar on dashboard:
 Scrumboard
   click to toggle visibility of responsible
   edit task (responsible, time left)
-  create new task on story
   
   after dragging: Reload card html with data from server (hrs left may have changed)
   'view notes' link on each card if it has notes
