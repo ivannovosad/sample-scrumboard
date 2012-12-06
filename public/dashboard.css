@@ -118,6 +118,23 @@ header h1 {
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
+
+#dashboard .stories > li .story-technologies {
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+}
+
+#dashboard .stories > li .story-tech-color {
+  float: right;
+  max-width: 90px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin: 0 0 0 2px;
+  border: solid 1px #ddd;
+}
+
 #dashboard .stories > li .metadata {
   font-size:12px;
   line-height:16px;
@@ -274,7 +291,7 @@ header h1 {
 	clear: both;
 }
 
-#dashboard #bugs h2 {
+#dashboard h2 {
 	margin-top: 2em;
 }
 

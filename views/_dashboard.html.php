@@ -34,6 +34,10 @@
 	<div id="bugs">
 		<?= render('_bugs.html.php', NULL, array('sprint' => $sprint)); ?>
 	</div>
+
+	<div id="technology">
+		<?= render('_technology.html.php', NULL, array('sprint' => $sprint)); ?>
+	</div>
 </div>
 
 <ul class="stories">

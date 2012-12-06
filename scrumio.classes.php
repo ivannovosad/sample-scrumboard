@@ -98,6 +98,7 @@ class ScrumioStory {
 
 	public $item_id;
 	public $title;
+  public $technologies = array();
 	public $product_owner;
 	public $states;
 	public $total_days;
@@ -127,6 +128,13 @@ class ScrumioStory {
 			if ($field['field_id'] == STORY_DEV_STARTED_ID) {
 				$this->dev_started = $field['values'][0]['start'];
 			}
+      if ($field['field_id'] == STORY_TECHNOLOGY_ID) {
+        foreach ($field['values'] as $value) {
+          if ($value['value']['status'] === 'active') {
+            $this->technologies[] = array('text' => $value['value']['text'], 'color' => $value['value']['color']);
+          }
+        }
+      }
 		}
     
 		// Get all items for this story

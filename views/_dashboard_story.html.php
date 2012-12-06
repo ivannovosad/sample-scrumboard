@@ -1,4 +1,5 @@
 <li data-id="<?= $story->item_id ?>">
+
   <div class="body">
     <div class="status-area">
       <ul class="status">
@@ -19,6 +20,12 @@
 	  </div>
     </div>
     <span class="title"><?= $story->title ?> [prio: <?= $story->priority; ?>]</span>
+
+    <div class="story-technologies">
+    <?php foreach ($story->technologies as $tech): ?>
+        <div class="story-tech-color" style="background-color: #<?php echo $tech['color']; ?>;"><?php echo $tech['text']; ?></div>
+    <?php endforeach; ?>
+    </div>
     
     <div class="metadata">
       <?php
