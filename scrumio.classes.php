@@ -421,6 +421,44 @@ class ScrumioSprint {
 		}
 		return (int) $points;
 	}
+
+  /**
+   * return all sprint's stories' points 
+   * @return int 
+   */
+  public function get_drupal_points() {
+    return $this->get_points_for_technology(TECHNOLOGY_DRUPAL);
+  }
+
+  public function get_design_points() {
+    return $this->get_points_for_technology(TECHNOLOGY_DESIGN);
+  }
+
+  public function get_ror_points() {
+    return $this->get_points_for_technology(TECHNOLOGY_ROR);
+  }
+
+  public function get_infrastructure_points() {
+    return $this->get_points_for_technology(TECHNOLOGY_INFRASTRUCTURE);
+  }
+
+  public function get_points_for_technology($technologyName) {
+    $points = 0;
+    foreach ($this->stories as $story) {
+      $technologiesCount = count($story->technologies);
+      if ($technologiesCount > 0) { 
+        foreach ($story->technologies as $technology) {
+
+          //
+          // TODO actually add cases here and assing each of the technologies to its own public instance var!
+          if ($technology['text'] === $technologyName) {
+            $points += ($story->points / $technologiesCount);
+          }
+        }
+      }
+    }
+    return (float) $points;
+  }
 	
 	/**
 	 * returns the amount of points of unfinished stories
