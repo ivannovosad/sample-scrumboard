@@ -286,22 +286,40 @@ header h1 {
 }
 
 
-#dashboard #bugs {
+#dashboard #bugs, #dashboard #technology {
 	float: left;
 	clear: both;
 }
 
 #dashboard h2 {
-	margin-top: 2em;
+	padding-top: 2em;
 }
 
-#dashboard #bugs table tr th, #dashboard #bugs table tr td {
+#dashboard #technology table tr td.tech-design, #dashboard #technology table tr th.tech-design {
+  background-color: #DCEBD8;
+}
+
+#dashboard #technology table tr td.tech-ror, #dashboard #technology table tr th.tech-ror {
+  background-color: #F7D1D0;
+}
+
+#dashboard #technology table tr td.tech-drupal, #dashboard #technology table tr th.tech-drupal {
+  background-color: #D2E4EB;
+}
+
+#dashboard #technology table tr td.tech-infrastructure, #dashboard #technology table tr th.tech-infrastructure {
+  background-color: #EFEFEF;
+}
+
+
+#dashboard #bugs table tr th, #dashboard #bugs table tr td, 
+#dashboard #technology table tr th, #dashboard #technology table tr td {
 	text-align: left;
 	padding: 4px 20px 4px 10px;
 	font-size: 14px;
 }
 
-#dashboard #bugs table tr th {
+#dashboard #bugs table tr th, #dashboard #technology table tr th {
 	width: 160px;
 }
 

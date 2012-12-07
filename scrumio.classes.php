@@ -448,9 +448,6 @@ class ScrumioSprint {
       $technologiesCount = count($story->technologies);
       if ($technologiesCount > 0) { 
         foreach ($story->technologies as $technology) {
-
-          //
-          // TODO actually add cases here and assing each of the technologies to its own public instance var!
           if ($technology['text'] === $technologyName) {
             $points += ($story->points / $technologiesCount);
           }
