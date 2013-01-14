@@ -1,39 +1,47 @@
 <?php
 
-define('OAUTH_ENDPOINT', 'https://podio.com/oauth/authorize');
 define('CLIENT', '/path/to/podio-php/PodioAPI.php');
 define('CLIENT_ID', '');
 define('CLIENT_SECRET', '');
-define('SCRUM_SPACE_URL', 'https://yoururl.podio.com/scrumdevelopment');
 
-define('SPRINT_APP_ID', null);
-define('SPRINT_STATE_ID', null);
-define('SPRINT_DURATION_ID', null);
+define('OAUTH_ENDPOINT', 'https://podio.com/oauth/authorize');
+define('SCRUM_SPACE_URL', 'https://diagnosia.podio.com/scrumdevelopment');
 
-define('STORY_APP_ID', null);
-define('STORY_SPRINT_ID', null);
-define('STORY_OWNER', null);
-define('STORY_POINTS_ID', null);
-define('STORY_PRIORITY_ID', null);
-define('STORY_DEV_STARTED_ID', null);
+define('SPRINT_APP_ID', 622140);
+define('SPRINT_STATE_ID', 4402975);
+define('SPRINT_DURATION_ID', 4402972);
 
-define('ITEM_TITLE_ID', null);
-define('ITEM_APP_ID', null);
-define('ITEM_STORY_ID', null);
-define('ITEM_ISBUG_ID', null);
-define('ITEM_STATE_ID', null);
-define('ITEM_RESPONSIBLE_ID', null);
+define('STORY_APP_ID', 622139);
+define('STORY_SPRINT_ID', 4402969);
+define('STORY_TECHNOLOGY_ID', 21361752);
+define('STORY_DATA_QA_ID', 23545156);
+define('STORY_OWNER', 4402970);
+define('STORY_POINTS_ID', 4453192);
+define('STORY_PRIORITY_ID', 4524316);
+define('STORY_DEV_STARTED_ID', 4455062);
 
-define('BUG_APP_ID', null);
-define('BUG_STORY_ID', null);
-define('BUG_STATE_ID', null);
+define('ITEM_TITLE_ID', 4402977);
+define('ITEM_APP_ID', 622141);
+define('ITEM_STORY_ID', 4402978);
+define('ITEM_ISBUG_ID', 7246165);
+define('ITEM_STATE_ID', 4402981);
+define('ITEM_RESPONSIBLE_ID', 4402982);
+
+define('BUG_APP_ID', 632108);
+define('BUG_STORY_ID', 4476623);
+define('BUG_STATE_ID', 4476583);
 define('BUG_STATE_REPORTED', 'Reported');
 define('BUG_STATE_FIXED', 'Fixed');
 define('BUG_STATE_CHECKED', 'Checked');
-define('BUG_RESPONSIBLE_ID', null);
+define('BUG_RESPONSIBLE_ID', 4476587);
 
 define('STATE_NOT_STARTED', 'Not started');
 define('STATE_DEV_STARTED', 'Dev started');
 define('STATE_DEV_DONE', 'Dev done');
 define('STATE_QA_DONE', 'QA done');
 define('STATE_PO_DONE', 'PO done');
+
+define('TECHNOLOGY_DESIGN', 'Design');
+define('TECHNOLOGY_ROR', 'RoR');
+define('TECHNOLOGY_DRUPAL', 'Drupal');
+define('TECHNOLOGY_INFRASTRUCTURE', 'Infrastructure');
