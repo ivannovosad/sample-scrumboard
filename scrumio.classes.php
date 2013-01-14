@@ -108,6 +108,8 @@ class ScrumioStory {
 	public $priority = 0;
 	public $dev_started;
 	public $bugs;
+  public $data_qa = false;
+
   
 	public function __construct($item, $items, $bugs, $estimate, $time_left, $states, $total_days, $remaining_days) {
 		global $api;
@@ -128,6 +130,11 @@ class ScrumioStory {
 			if ($field['field_id'] == STORY_DEV_STARTED_ID) {
 				$this->dev_started = $field['values'][0]['start'];
 			}
+      if ($field['field_id'] == STORY_DATA_QA_ID) {
+        if ($field['values'][0]['value']['status'] === 'active') {
+          $this->data_qa = true;
+        }
+      }
       if ($field['field_id'] == STORY_TECHNOLOGY_ID) {
         foreach ($field['values'] as $value) {
           if ($value['value']['status'] === 'active') {

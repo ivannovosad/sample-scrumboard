@@ -22,6 +22,9 @@
     <span class="title"><?= $story->title ?> [prio: <?= $story->priority; ?>]</span>
 
     <div class="story-technologies">
+    <?php if ($story->data_qa): ?>
+      <div class="story-tech-color" style="background-color: #ee0011;">Data QA relevant</div>
+    <?php endif; ?>
     <?php foreach ($story->technologies as $tech): ?>
         <div class="story-tech-color" style="background-color: #<?php echo $tech['color']; ?>;"><?php echo $tech['text']; ?></div>
     <?php endforeach; ?>
