@@ -131,7 +131,6 @@ class ScrumioStory {
 				$this->dev_started = $field['values'][0]['start'];
 			}
       if ($field['field_id'] == STORY_DATA_QA_ID) {
-        print_r($field['values']);
         if ($field['values'][0]['value']['text'] === 'Yes') {
           $this->data_qa = true;
         }
