@@ -17,10 +17,15 @@ dispatch('/reload/:id', 'scrumboard');
     // If we have an access token, show the scrumboard
     if (isset($_SESSION['access_token']) && $_SESSION['access_token'] && isset($_SESSION['story_app']) && $_SESSION['story_app']) {
       
+      $filters = array(array(
+          'key' => 'name',
+          'values' => array( 'Backlog' )
+      ));
+      $backlog_sprint = $api->item->getItems(SPRINT_APP_ID, 1, 0, SPRINT_DURATION_ID, 0, $filters);
+      $backlog_sprint = $backlog_sprint['items'][0];
+
       // Grab sprints and find current sprint
-      // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
       $sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, SPRINT_DURATION_ID, 1);
-      //$sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, 'duration', 1);
       foreach ($sprints['items'] as $item) {
         if (params('id') == $item['item_id']) {
           $current_sprint = $item;
@@ -36,22 +41,25 @@ dispatch('/reload/:id', 'scrumboard');
           }
         }
       }
+
+      if (params('id') == $backlog_sprint['item_id']) {
+        $current_sprint = $backlog_sprint;
+      }
       
-	  
-	  ///// current_sprint
-		$sprint = new ScrumioSprint($current_sprint);
-	  
-		// only return contents of partials when periodical refreshin
-		if ( strpos(request_uri(), '/reload') !== false ) {
-			
-			$dashboard = html('_dashboard.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
-			$stories = html('_stories.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
-			
-			return json_encode(array('dashboard' => $dashboard, 'stories' => $stories));
-		} else {
-			
-			return html('index.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
-		}
+  	  ///// current_sprint
+  		$sprint = new ScrumioSprint($current_sprint);
+  	  
+  		// only return contents of partials when periodical refreshin
+  		if ( strpos(request_uri(), '/reload') !== false ) {
+  			
+  			$dashboard = html('_dashboard.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items'], 'backlog_sprint' => $backlog_sprint));
+  			$stories = html('_stories.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items'], 'backlog_sprint' => $backlog_sprint));
+  			
+  			return json_encode(array('dashboard' => $dashboard, 'stories' => $stories));
+  		} else {
+  			return html('index.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items'], 'backlog_sprint' => $backlog_sprint));
+  		}
+
     } else {
       // No access token, show the "login" screen
       return html('login.html.php', NULL, array('oauth_url' => option('OAUTH_URL')));

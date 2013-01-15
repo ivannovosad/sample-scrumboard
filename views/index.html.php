@@ -18,20 +18,26 @@
       Sprints: 
       <ul class="sprints">
         <?php foreach ($sprints as $item) : ?>
-			<?php
-				$sprintStart = $item['fields'][1]['values'][0]['start'];
-				$sprintStart = date("d.m.Y", strtotime($sprintStart));
-			?>
+    			<?php
+    				$sprintStart = $item['fields'][1]['values'][0]['start'];
+    				$sprintStart = date("d.m.Y", strtotime($sprintStart));
+    			?>
           <li class="<?= $sprint->item_id == $item['item_id'] ? 'selected' : '' ?>">
-			  <a href="<?= url_for('/show/'.$item['item_id']);?>"><?= $sprintStart; /*$item['title'];*/ ?></a>
-		  </li>
+    			  <a href="<?= url_for('/show/'.$item['item_id']);?>"><?= $sprintStart; /*$item['title'];*/ ?></a>
+    		  </li>
         <?php endforeach; ?>
+
+        <li class="<?= $backlog_sprint['item_id'] == $sprint->item_id ? 'selected' : '' ?>">
+          <a href="<?= url_for('/show/'.$backlog_sprint['item_id']);?>"><?= $backlog_sprint['title']; ?></a>
+        </li>
       </ul>
     </div>
     <div id="main">
+
       <div id="dashboard">
-			<?= render('_dashboard.html.php', NULL, array('sprint' => $sprint)); ?>
+			<?php echo render('_dashboard.html.php', NULL, array('sprint' => $sprint, 'backlog_sprint' => $backlog_sprint)); ?>
       </div>
+
       <div id="stories" class="story-view hidden" data-count="<?= count($sprint->states); ?>">
 			<?= render('_stories.html.php', NULL, array('sprint' => $sprint)); ?>
       </div>
