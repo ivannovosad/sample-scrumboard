@@ -1,6 +1,4 @@
-<?php if ($backlog_sprint['item_id'] != $sprint->item_id): // don't render the dashboard for backlog ?>
-	<?php echo render('_sidebar.html.php', NULL, array('sprint' => $sprint)); ?>
-<?php endif; ?>
+<?php echo render('_sidebar.html.php', NULL, array('sprint' => $sprint, 'backlog_sprint' => $backlog_sprint)); ?>
 
 <ul class="stories">
   <?php foreach ($sprint->stories as $story) : ?>
