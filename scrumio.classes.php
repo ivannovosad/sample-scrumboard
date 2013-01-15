@@ -315,8 +315,17 @@ class ScrumioSprint {
     $this->title = $sprint['title'];
     foreach ($sprint['fields'] as $field) {
       if ($field['type'] == 'date') {
-        $this->start_date = date_create($field['values'][0]['start'], timezone_open('UTC'));
-        $this->end_date = date_create($field['values'][0]['end'], timezone_open('UTC'));
+        if (empty($field['values'][0]['start'])) {
+          $this->start_date = date_create('1900-01-01 00:00:00', timezone_open('UTC'));
+        } else {
+          $this->start_date = date_create($field['values'][0]['start'], timezone_open('UTC'));
+        }
+        
+        if (empty($field['values'][0]['end'])) {
+          $this->end_date = date_create('3000-01-01 00:00:00', timezone_open('UTC'));
+        } else {
+          $this->end_date = date_create($field['values'][0]['end'], timezone_open('UTC'));
+        }
       }
     }
 	
